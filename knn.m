@@ -12,7 +12,9 @@ for probe_idx = 1:test_amount
     test_probe = test_data(probe_idx, :);
     distances = zeros(size(train_amount, 1), 1);
     for i = 1:train_amount
-          distances(i) = dist_fcn(test_probe, train_data(i, :));
+%         distances(i) = sqrt(sum((train_data(i, :) - test_probe) .^ 2));
+          p = 1;
+          distances(i) = dist_fcn(test_probe, train_data(i, :));%sum(abs(test_probe - train_data(i, :)) .^ p) ^ (1 / p);
     end
     
     % get closest
