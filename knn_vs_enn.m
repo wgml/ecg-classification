@@ -2,14 +2,14 @@ close all
 clear all
 
 addpath(genpath('haibo_he'));
-K = 3;
+K = 5;
 expected_classes_num = 3;
 train_data_percentage = 0.7;
 
 files = dir('ReferencyjneDane/*');
 files = files(3:end); %remove . and ..
 files_num = length(files);
-success_rate = zeros(2, files_num);
+success_rate = zeros(files_num, 2);
 by_class_comp = zeros(files_num, 2, expected_classes_num);
 for i = 1:files_num
     file = files(i, 1).name
@@ -31,19 +31,21 @@ for i = 1:files_num
     test_data = data((train_data_amount+1):size(data,1),:);
     test_data_amount = length(test_data);
     test_label = Class_IDs(train_data_amount+1:train_data_amount+test_data_amount);
+    
+    [train_data_trunc, train_label_trunc] = truncate_train_data(train_data, train_label, expected_classes_num, 3);
     tic()
     classes_knn = knn(train_data, train_label, test_data, K);
     knn_time = toc()
     
     tic()
-    classes_enn = ENN(train_data, train_label, test_data, K);
+    classes_enn = ENN(train_data_trunc, train_label_trunc, test_data, K);
     enn_time = toc()
     
     % compare
     correct = sum(test_label == classes_knn);
-    success_rate(1, i)  = correct / test_data_amount;
+    success_rate(i, 1)  = correct / test_data_amount;
     correct = sum(test_label == classes_enn);
-    success_rate(2, i)  = correct / test_data_amount;
+    success_rate(i, 2)  = correct / test_data_amount;
 
     class_occurences = zeros(1, expected_classes_num);
     for j = 1:test_data_amount
@@ -58,9 +60,11 @@ for i = 1:files_num
     end
     for j = 1:expected_classes_num
         if class_occurences(j) == 0
-            continue
+            by_class_comp(i, 1, j) = -1;
+            by_class_comp(i, 2, j) = -1;
+        else
+            by_class_comp(i, 1, j) = 100 * by_class_comp(i, 1, j) / class_occurences(j);
+            by_class_comp(i, 2, j) = 100 * by_class_comp(i, 2, j) / class_occurences(j);
         end
-        by_class_comp(i, 1, j) = 100 * by_class_comp(i, 1, j) / class_occurences(j);
-        by_class_comp(i, 2, j) = 100 * by_class_comp(i, 2, j) / class_occurences(j);
     end
 end
