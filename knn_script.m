@@ -19,23 +19,23 @@ train_data_amount = floor(train_data_percentage * size(data,1));
 train_data = data(1:train_data_amount,:);
 test_data = data((train_data_amount+1):size(data,1),:);
 
-%%
-% tic()
-% Mdl = fitcknn(train_data, Class_IDs(1:train_data_amount), 'NumNeighbors', 5, 'Distance', 'minkowski', 'Standardize', 0);
-% correct = 0;
-% wrong = 0;
-% classes1 = zeros(size(test_data, 1), 1);
-% for j=1:size(test_data,1)
-%     v = Mdl.predict(data(train_data_amount + j, :));
-%     classes1(j) = v;
-%     if Class_IDs(train_data_amount + j) == v
-%         correct = correct + 1;
-%     else
-%         wrong = wrong + 1;
-%     end
-% end
-% correct_detections_percent1 = correct/(correct+wrong)
-% toc()
+%
+tic()
+Mdl = fitcknn(train_data, Class_IDs(1:train_data_amount), 'NumNeighbors', 5, 'Distance', 'minkowski', 'Standardize', 0);
+correct = 0;
+wrong = 0;
+classes1 = zeros(size(test_data, 1), 1);
+for j=1:size(test_data,1)
+    v = Mdl.predict(data(train_data_amount + j, :));
+    classes1(j) = v;
+    if Class_IDs(train_data_amount + j) == v
+        correct = correct + 1;
+    else
+        wrong = wrong + 1;
+    end
+end
+correct_detections_percent1 = correct/(correct+wrong)
+toc()
 %%
 % tic()
 % classes2 = knn(train_data, Class_IDs(1:train_data_amount), test_data, 5);
@@ -117,3 +117,17 @@ for j=1:size(test_data,1)
 end
 correct_detections_percent3 = correct/(correct+wrong)
 classes_missmatch = sum(classes1 ~= classes3) / length(classes1)
+
+%%
+clc
+addpath(genpath('haibo_he'));
+[classes3] = ENN(train_data, Class_IDs(1:train_data_amount), test_data, 5);
+expected_labels = Class_IDs(train_data_amount+1:train_data_amount + length(test_data));
+correct = sum(expected_labels == classes3);
+wrong = length(expected_labels) - correct;
+correct_detections_percent3 = correct/(correct+wrong)
+classes_missmatch = sum(classes1 ~= classes3) / length(classes1)
+
+uniq_input = unique(Class_IDs(train_data_amount+1:end))
+uniq_knn = unique(classes1)
+uniq_enn = unique(classes3)
