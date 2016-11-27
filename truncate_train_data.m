@@ -1,9 +1,10 @@
 function [data, labels] = truncate_train_data(data, labels, num_classes, max_diff_factor)
 class_counts = histc(labels, 1:num_classes);
 
-to_feed = min(class_counts(class_counts > 0));
+threshold = 5;
+to_feed = min(class_counts(class_counts > threshold));
 for i=1:num_classes
-    if class_counts(i) > 0
+    if class_counts(i) > threshold
         class_counts(i) = to_feed;
     end
 end

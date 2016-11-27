@@ -2,43 +2,64 @@ close all
 clear all
 
 addpath(genpath('haibo_he'));
-K = 5;
-expected_classes_num = 3;
-train_data_percentage = 0.7;
+K = 3;
+expected_classes_num = 10;
+train_data_percentage = 2/3;
 
-files = dir('ReferencyjneDane/*');
+files = dir('ReferencyjneDane2/*');
 files = files(3:end); %remove . and ..
 files_num = length(files);
 success_rate = zeros(files_num, 2);
 by_class_comp = zeros(files_num, 2, expected_classes_num);
+class_freq = zeros(files_num, expected_classes_num);
 for i = 1:files_num
     file = files(i, 1).name
-    qrs_file = sprintf('./ReferencyjneDane/%s/ConvertedQRSRawData.txt', file);
-    classes_file = sprintf('./ReferencyjneDane/%s/Class_IDs.txt', file);
+    qrs_file = sprintf('./ReferencyjneDane2/%s/ConvertedQRSRawData_2.txt', file);
+    classes_file = sprintf('./ReferencyjneDane2/%s/Class_IDs_2.txt', file);
     idata = importdata(qrs_file);
     load(classes_file);
+
     data=idata(:,2:18);
+    num_samples = size(data,1);
+    
+    Class_IDs = Class_IDs_2; % if using refdane2
+       
+    %permute
+%     num_samples = size(data,1);
+%     permuted_idx = randperm(num_samples);
+%     data = data(permuted_idx, :);
+%     Class_IDs = Class_IDs(permuted_idx);
+
+
+%     data = normalizeData(data);
+
     for j = 1:size(data,2)
         vec = data(:,j);
         vec = vec - mean(vec);
         vec = vec/std(vec);
         data(:,j) = vec;
     end
+    
+    for c = 1:expected_classes_num
+        class_freq(i, c) = 100 * sum(Class_IDs(1:num_samples) == c) / num_samples;
+    end
 
-    train_data_amount = floor(train_data_percentage * size(data,1));
+    train_data_amount = floor(train_data_percentage * num_samples);
     train_data = data(1:train_data_amount,:);
     train_label = Class_IDs(1:train_data_amount);
-    test_data = data((train_data_amount+1):size(data,1),:);
+    test_data = data((train_data_amount+1):num_samples,:);
     test_data_amount = length(test_data);
     test_label = Class_IDs(train_data_amount+1:train_data_amount+test_data_amount);
     
-    [train_data_trunc, train_label_trunc] = truncate_train_data(train_data, train_label, expected_classes_num, 3);
+%     [train_data_trunc, train_label_trunc] = truncate_train_data(train_data, train_label, expected_classes_num, 1);
     tic()
     classes_knn = knn(train_data, train_label, test_data, K);
     knn_time = toc()
     
     tic()
-    classes_enn = ENN(train_data_trunc, train_label_trunc, test_data, K);
+%     [neighbour_classes_per_node,T,n_i] = enn_prepare(train_data, train_label, K);
+%     classes_enn = enn(train_data_trunc, train_label_trunc, test_data, K,neighbour_classes_per_node,T,n_i);
+    classes_enn = enn_v1(train_data, train_label, test_data, K);
     enn_time = toc()
     
     % compare
