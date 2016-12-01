@@ -55,7 +55,6 @@ for i = 1:files_num
     tic()
     classes_knn = knn(train_data, train_label, test_data, K);
     knn_time = toc()
-    
     tic()
 %     [neighbour_classes_per_node,T,n_i] = enn_prepare(train_data, train_label, K);
 %     classes_enn = enn(train_data_trunc, train_label_trunc, test_data, K,neighbour_classes_per_node,T,n_i);

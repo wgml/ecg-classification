@@ -6,15 +6,11 @@ result = zeros(test_amount, 1);
 
 if nargin ~= 5
     p = 2;
-    dist_fcn = @(x, y) sum(abs(x - y) .^ p) ^ (1 / p);
+    dist_fcn = @(train, test) sum(abs(ones(train_amount, 1) * test - train) .^ p, 2) .^ (1 / p);
 end
 for probe_idx = 1:test_amount
     test_probe = test_data(probe_idx, :);
-    distances = zeros(size(train_amount, 1), 1);
-    for i = 1:train_amount
-          distances(i) = dist_fcn(test_probe, train_data(i, :));
-    end
-    
+    distances = dist_fcn(train_data, test_probe);
     % get closest
     [~, idxs] = sort(distances);
     result(probe_idx) = mode(classes(idxs(1:num_neighbours)));

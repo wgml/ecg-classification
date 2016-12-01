@@ -10,7 +10,12 @@
 % to contact Prof. Haibo He, Electrical Engineering, University of Rhode Island,
 % Email: he@ele.uri.edu
 % Web:  http://www.ele.uri.edu/faculty/he/
-function [PredictionLabel] = enn_v1(TrainingData, TrainingLabel, TestingData, K)
+function [PredictionLabel] = enn_v1(TrainingData, TrainingLabel, TestingData, K, dist_fcn)
+if nargin ~= 5
+    p = 2;
+    train_amount = size(TrainingData, 1);
+    dist_fcn = @(train, test) sum(abs(ones(train_amount, 1) * test - train) .^ p, 2) .^ (1 / p);
+end
 
 NumClass = length(unique(TrainingLabel));
 
@@ -28,7 +33,7 @@ PredictionLabel = zeros(size(TestingData, 1), 1);
 for i = 1:size(TestingData, 1)
     testingData1 = TestingData(i, :);
     
-    disNorm2 = sqrt(sum((ones(numTrainingData, 1) * testingData1 -  TrainingData).^2,2));
+    disNorm2 = dist_fcn(TrainingData, testingData1);
     [normSort, sortIX] = sort(disNorm2);
     
     classNNTest = TrainingLabel(sortIX(1:K),1);
