@@ -55,7 +55,6 @@ for i = 1:files_num
     tic()
     classes_knn = knn(train_data, train_label, test_data, K);
     knn_time = toc()
-    
     tic()
     classes_enn = enn(train_data, train_label, test_data, K); 
     enn_time = toc()
