@@ -1,7 +1,6 @@
 #ifndef ALGORITHM_NNALGORITHM_H_
 #define ALGORITHM_NNALGORITHM_H_
 
-#include <iostream>
 #include <Eigen/Dense>
 #include <utility>
 #include <cassert>
@@ -9,7 +8,7 @@
 
 struct NNAlgorithm {
 	using ClassType = int;
-	using DataType = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>; //todo rowmajor vs colmajor
+	using DataType = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>; //todo rowmajor vs colmajor (row is a must if using igl)
 	using LabelType = Eigen::Matrix<ClassType, Eigen::Dynamic, 1>;
 	using DistanceType = Eigen::Matrix<double, Eigen::Dynamic, 1>;
 	using IndexType = Eigen::Matrix<Eigen::Index, Eigen::Dynamic, 1>;
@@ -22,9 +21,10 @@ struct NNAlgorithm {
 		int samples = static_cast<int>(expected.rows());
 		int matched = 0;
 
-		for (int i = 0; i < samples; i++)
+		for (int i = 0; i < samples; i++) {
 			if (expected(i, 0) == actual(i, 0))
 				matched++;
+		}
 		return (100.0 * matched) / samples;
 	}
 
@@ -45,7 +45,7 @@ struct NNAlgorithm {
 		for (int i = 0; i < labels.rows(); i++) {
 			ClassType label = labels(i);
 			auto o = ++(occurences[label]);
-			if (o > top_value) {
+			if (o > top_value || (o == top_value && top_element > label)) { // matlab-compatible communist mode (favors lower class)
 				top_value = o;
 				top_element = label;
 			}

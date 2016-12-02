@@ -7,7 +7,7 @@
 #include <cassert>
 #include <vector>
 #include <iterator>
-
+#include <cmath>
 #include <Eigen/Dense>
 #include "NNAlgorithm.h"
 
@@ -21,6 +21,7 @@ public:
 		NNAlgorithm::LabelType label_tmp;
 		load_data(data_file, data_tmp, skip_first_n_cols);
 		load_label(label_file, label_tmp);
+		normalize(data_tmp);
 		split(data_tmp, label_tmp, split_ratio,
 			  train_data, test_data, train_label, test_label);
 	}
@@ -102,6 +103,16 @@ private:
 
 		label_out2.resize(samples2, 1);
 		label_out2 << label.block(samples1, 0, samples2, 1);
+	}
+
+	static void normalize(NNAlgorithm::DataType &data) {
+		for (auto col = 0; col < data.cols(); col++) {
+			auto data_column = data.col(col);
+			const auto mean = data_column.mean();
+			const auto stdev = std::sqrt((data_column.array() - mean).square().mean());
+			data_column.array() -= mean;
+			data_column.array() /= stdev;
+		}
 	}
 };
 

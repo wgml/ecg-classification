@@ -32,14 +32,14 @@ for i = 1:files_num
 
 
 %     data = normalizeData(data);
-
+% 
     for j = 1:size(data,2)
         vec = data(:,j);
         vec = vec - mean(vec);
         vec = vec/std(vec);
         data(:,j) = vec;
     end
-    
+%     
     for c = 1:expected_classes_num
         class_freq(i, c) = 100 * sum(Class_IDs(1:num_samples) == c) / num_samples;
     end

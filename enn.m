@@ -17,7 +17,8 @@ nn_distance = zeros(train_amount,num_neighbours);
 nn_classes = zeros(train_amount,num_neighbours);
 
 for idx = 1:train_amount
-    distance = sqrt(sum(abs(ones(train_amount, 1) * train_data(idx,:) - train_data) .^ 2, 2));
+%     distance = sqrt(sum(abs(ones(train_amount, 1) * train_data(idx,:) - train_data) .^ 2, 2));
+    distance = dist_fcn(train_data, train_data(idx, :));
     [sortDistance, sortDistanceIdx] = sort(distance);
     nn_distance(idx,:) = sortDistance(2:num_neighbours+1);
     nn_classes(idx,:) = classes(sortDistanceIdx(2:num_neighbours+1));
@@ -35,7 +36,8 @@ delta_n = zeros(uniq_classes_num);
 for probe = 1:size(test_data, 1)
     test_probe = test_data(probe, :);
     
-    distance = sqrt(sum(abs(ones(train_amount, 1) * test_probe - train_data) .^ 2, 2));
+%     distance = sqrt(sum(abs(ones(train_amount, 1) * test_probe - train_data) .^ 2, 2));
+    distance = dist_fcn(train_data, test_probe);
     [sortDistance, sortDistanceIdx] = sort(distance);
     x_nn_classes = classes(sortDistanceIdx(1:num_neighbours));
 
