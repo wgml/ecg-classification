@@ -1,78 +1,79 @@
-function [ test_label ] = enn( train_data, classes, test_data, num_neighbours,neighbour_classes_per_node,T,n_i, dist_fcn )
+function [ PredictionLabel ] = enn( train_data, classes, test_data, num_neighbours,dist_fcn )
 
 train_amount = size(train_data, 1);
 
-if nargin ~= 8
-    p = 2;
-    dist_fcn = @(x, y) sum(abs(x - y) .^ p) ^ (1 / p);
+if nargin ~= 5
+    dist_fcn = @(train, test) sqrt(sum(abs(ones(train_amount, 1) * test - train) .^ 2, 2));
 end
  
 uniq_classes = unique(classes);
 uniq_classes = sort(uniq_classes,1,'ascend');
 uniq_classes_num = length(uniq_classes);
 
-% compute delta_n_i^j
-% delta_n(i,j) = delta_n_i^j
+T = zeros(uniq_classes_num);
+n_i = zeros(uniq_classes_num, 1);
+
+nn_distance = zeros(train_amount,num_neighbours);
+nn_classes = zeros(train_amount,num_neighbours);
+
+for idx = 1:train_amount
+    distance = sqrt(sum(abs(ones(train_amount, 1) * train_data(idx,:) - train_data) .^ 2, 2));
+    [sortDistance, sortDistanceIdx] = sort(distance);
+    nn_distance(idx,:) = sortDistance(2:num_neighbours+1);
+    nn_classes(idx,:) = classes(sortDistanceIdx(2:num_neighbours+1));
+end
+
+for class_idx = 1:uniq_classes_num
+    class = uniq_classes(class_idx);
+    class_idxs = find(classes == class);
+    n_i(class_idx) = length(class_idxs);
+    
+    T(class_idx) = length(find(nn_classes(class_idxs,1:num_neighbours) == class_idx)) / (n_i(class_idx)*num_neighbours);
+end
+
 delta_n = zeros(uniq_classes_num);
 for probe = 1:size(test_data, 1)
     test_probe = test_data(probe, :);
+    
+    distance = sqrt(sum(abs(ones(train_amount, 1) * test_probe - train_data) .^ 2, 2));
+    [sortDistance, sortDistanceIdx] = sort(distance);
+    x_nn_classes = classes(sortDistanceIdx(1:num_neighbours));
+
+    k_i = zeros(uniq_classes_num, 1);
+    for c_idx = 1:uniq_classes_num
+       k_i(c_idx) = length(find(x_nn_classes == uniq_classes(c_idx)));
+    end
+    
+    predictions = zeros(uniq_classes_num, 1);
+
+    classes_num_ij = zeros(uniq_classes_num,1);
+    classes_num_jj = zeros(uniq_classes_num,1);
+    
     for j = 1:uniq_classes_num
        class_idx = j;
        test_label = uniq_classes(class_idx);
-       train_data_j = [train_data; test_probe];
        class_idxs = find(classes == test_label);
-       classes_j = [classes; test_label];
-       neighbour_classes_per_node_j = zeros(train_amount, num_neighbours);
+       orig_nn_distance = nn_distance(class_idxs, num_neighbours);
+       orig_nn_class = nn_classes(class_idxs, num_neighbours);
+       
+       dif_distance = distance(class_idxs,1) - orig_nn_distance;
+       negative_dif=find(dif_distance <=0);
+       classes_num_ij(j) = length(negative_dif);
 
-       for i = 1:numel(class_idxs)
-           idx = class_idxs(i);
-           x = train_data_j(idx, :);
-           train_data_x = zeros(train_amount, length(x));
-           classes_x = zeros(train_amount , 1);
-           if (idx > 1)
-               train_data_x(1:idx-1, :) = train_data_j(1:idx-1, :);
-               classes_x(1:idx-1) = classes_j(1:idx-1);
-           end
-           if (idx < train_amount)
-               train_data_x(idx:train_amount, :) = train_data_j(idx+1:end, :);
-               classes_x(idx:train_amount) = classes_j(idx+1:end);
-           end
-           x_nn_classes = n_closest_neighbours(train_data_x, classes_x, x, num_neighbours, dist_fcn);
-           neighbour_classes_per_node_j(idx, :) = x_nn_classes;
-       end
-
-       for i = 1:uniq_classes_num
-           for e = 1:numel(class_idxs)
-               n_org = sum(neighbour_classes_per_node(e, :) == uniq_classes(i));
-               n_new = sum(neighbour_classes_per_node_j(e, :) == uniq_classes(i));
-
-               if i == j && n_new > n_org
-                   delta_n(i, j) = delta_n(i, j) + 1;
-               elseif i ~= j && n_new < n_org
-                   delta_n(j, i) = delta_n(j, i) + 1;
-               end
-           end
+       if(classes_num_ij(j) > 0)
+           classes_num_jj(j) = length(find(orig_nn_class(negative_dif) == class_idx));
        end
     end
-
-    % determine result class
-    probe_neighbours = n_closest_neighbours(train_data, classes, test_probe, num_neighbours, dist_fcn);
-    k_i = zeros(uniq_classes_num, 1);
-    for c_idx = 1:uniq_classes_num
-       k_i(c_idx) = sum(probe_neighbours == uniq_classes(c_idx));
+    
+    for i = 1:uniq_classes_num
+        delta_n_jj = classes_num_ij(i) - classes_num_jj(i);
+        
+        s1 = (delta_n_jj + k_i(i) - T(i) * num_neighbours) / ((n_i(i) + 1)*num_neighbours);
+        s2 = sum(classes_num_jj ./ (n_i * num_neighbours)) - classes_num_jj(i) / (n_i(i) * num_neighbours);
+        predictions(i) = s1 - s2;
     end
-    predictions = zeros(uniq_classes_num, 1);
-    for j = 1:uniq_classes_num
-        s1 = (delta_n(j, j) + k_i(j) - num_neighbours * T(j)) / ((n_i(j) + 1) * num_neighbours);
-        s2 = 0;
-        for i = 1:uniq_classes_num
-            if i ~= j
-                continue;
-            end
-                s2 = s2 + delta_n(i, j) / (n_i(i) * num_neighbours);
-        end
-        predictions(j) = s1 - s2;
-    end
+    
     [~, index] = max(predictions);
-    test_label(probe) = uniq_classes(index);
+    PredictionLabel(probe) = uniq_classes(index);     
 end
+PredictionLabel = PredictionLabel';
