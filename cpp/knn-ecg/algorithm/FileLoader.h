@@ -27,8 +27,6 @@ public:
 	}
 private:
 	static void load_data(const std::string &filename, NNAlgorithm::DataType &output, const int skip_first_n_cols = 0) {
-//		std::cerr << "I'll be loading data from " << filename << std::endl;
-
 		std::ifstream input_stream{filename};
 		assert(input_stream.is_open());
 
@@ -60,12 +58,9 @@ private:
 			row++;
 			col = 0;
 		}
-//		std::cerr << " I loaded " << output.rows() << "x" << output.cols() << std::endl;
 	}
 
 	static void load_label(const std::string &filename, NNAlgorithm::LabelType &output) {
-//		std::cerr << "I'll be loading labels from " << filename << std::endl;
-
 		std::ifstream input_stream{filename};
 		assert(input_stream.is_open());
 
@@ -76,8 +71,6 @@ private:
 		int i = 0;
 		for (auto &element : file_content)
 			output(i++) = element;
-
-//		std::cerr << " I loaded " << output.rows() << "x" << output.cols() << std::endl;
 	}
 
 	static void split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
@@ -115,7 +108,5 @@ private:
 		}
 	}
 };
-
-
 
 #endif /* ALGORITHM_FILELOADER_H_ */

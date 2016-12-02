@@ -23,10 +23,12 @@ int main() {
 		"219", "221", "222", "223", "228",
 		"231", "233", "234"
 	} };
+
 	for (auto &file : files) {
 		auto start_time = high_resolution_clock::now();
-
-		KNN knn_classifier{3};
+		const auto K = 3;
+//		KNN knn_classifier{3};
+		ENN enn_classifier{K};
 		KNN::DataType train_data;
 		KNN::LabelType train_label;
 		KNN::DataType test_data;
@@ -42,15 +44,15 @@ int main() {
 				train_data, test_data, train_label, test_label, 1, 2.0 / 3);
 		auto post_load = high_resolution_clock::now();
 
-		knn_classifier.train(train_data, train_label);
+		enn_classifier.train(train_data, train_label);
 
 		auto post_train = high_resolution_clock::now();
 
-		knn_classifier.classify(test_data, classify_label);
+		enn_classifier.classify(test_data, classify_label);
 
 		auto post_classify = high_resolution_clock::now();
 
-		auto accuracy = knn_classifier.accuracy(test_label, classify_label);
+		auto accuracy = enn_classifier.accuracy(test_label, classify_label);
 
 		auto total_time = duration_cast<milliseconds>(post_classify - start_time).count();
 		auto load_time = duration_cast<milliseconds>(post_load - start_time).count();

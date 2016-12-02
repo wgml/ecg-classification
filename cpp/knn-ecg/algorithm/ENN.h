@@ -1,24 +1,31 @@
 #ifndef ALGORITHM_ENN_H_
 #define ALGORITHM_ENN_H_
 
-#include <exception>
-
 #include "NNAlgorithm.h"
 
 struct ENN : public NNAlgorithm {
 
 	ENN(const size_t K)
-	    : K(K)
+	: NNAlgorithm(K)
 	{}
 
-	virtual void train(const DataType &train_data, const LabelType &train_labels) = 0; // todo
+	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
 
-	virtual void classify(const DataType &test_data, LabelType &result) = 0; // todo
+	virtual void classify(const DataType &test_data, LabelType &result) override;
 
 	virtual ~ENN() = default;
 
 private:
-	const size_t K;
+	using NNLabelsType = Eigen::Matrix<ClassType, Eigen::Dynamic, Eigen::Dynamic>;
+
+	DataType train_data;
+	LabelType train_labels;
+	LabelType unique_labels;
+
+	Eigen::MatrixXd nn_distances;
+	NNLabelsType nn_labels;
+	Eigen::VectorXi n_i;
+	Eigen::VectorXd T;
 };
 
 

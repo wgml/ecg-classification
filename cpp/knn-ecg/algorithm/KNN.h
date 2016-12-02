@@ -6,7 +6,7 @@
 struct KNN : public NNAlgorithm {
 
 	KNN(const size_t K)
-	    : K(K)
+	: NNAlgorithm(K)
 	{}
 
 	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
@@ -15,9 +15,7 @@ struct KNN : public NNAlgorithm {
 	virtual ~KNN() = default;
 
 private:
-	int get_mode_from_k_neighbours(DistanceType &distances);
-
-	const size_t K;
+	ClassType get_mode_from_k_neighbours(DistanceType &distances);
 
 	DataType train_data;
 	LabelType train_labels;

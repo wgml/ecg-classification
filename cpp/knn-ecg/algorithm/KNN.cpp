@@ -12,7 +12,6 @@ void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) {
 	long test_amount = test_data.rows();
 	if (test_amount == 0)
 		return;
-//	std::cerr << "I'll classify " << test_amount << " samples." << std::endl;
 	result.resize(test_amount, Eigen::NoChange);
 
 	DistanceType distances{train_data.rows()};
@@ -31,10 +30,9 @@ KNN::ClassType KNN::get_mode_from_k_neighbours(KNN::DistanceType &distances) {
 	DistanceType distances_sorted{samples};
 	igl::sort(distances, 1, true, distances_sorted, indexes);
 	IndexType k_indexes = indexes.block(0, 0, K, 1);
-//	LabelType k_classes = igl::slice(train_labels, k_indexes, igl::colon<int, int>(0, 0)); // todo not working :/
 	LabelType k_classes{K};
 
-	for (int i = 0; i < K; i++)
-		k_classes(i) = train_labels(k_indexes(i));
+	for (unsigned int i = 0; i < K; i++)
+		k_classes(i) = train_labels(k_indexes(i)); //todo can be optimized
 	return mode(k_classes);
 }

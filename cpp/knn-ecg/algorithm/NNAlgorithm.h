@@ -7,11 +7,15 @@
 #include <unordered_map>
 
 struct NNAlgorithm {
-	using ClassType = int;
+	using ClassType = unsigned int;
 	using DataType = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>; //todo rowmajor vs colmajor (row is a must if using igl)
 	using LabelType = Eigen::Matrix<ClassType, Eigen::Dynamic, 1>;
 	using DistanceType = Eigen::Matrix<double, Eigen::Dynamic, 1>;
 	using IndexType = Eigen::Matrix<Eigen::Index, Eigen::Dynamic, 1>;
+
+	NNAlgorithm(unsigned int K)
+	: K(K)
+	{}
 
 	virtual void train(const DataType &train_data, const LabelType &train_labels) = 0;
 	virtual void classify(const DataType &test_data, LabelType &result) = 0;
@@ -54,6 +58,9 @@ struct NNAlgorithm {
 	}
 
 	virtual ~NNAlgorithm() = default;
+
+protected:
+	const size_t K;
 };
 
 #endif /* ALGORITHM_NNALGORITHM_H_ */

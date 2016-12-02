@@ -10,7 +10,7 @@ uniq_classes = unique(classes);
 uniq_classes = sort(uniq_classes,1,'ascend');
 uniq_classes_num = length(uniq_classes);
 
-T = zeros(uniq_classes_num);
+T = zeros(uniq_classes_num, 1);
 n_i = zeros(uniq_classes_num, 1);
 
 nn_distance = zeros(train_amount,num_neighbours);
@@ -29,16 +29,14 @@ for class_idx = 1:uniq_classes_num
     class_idxs = find(classes == class);
     n_i(class_idx) = length(class_idxs);
     
-    T(class_idx) = length(find(nn_classes(class_idxs,1:num_neighbours) == class_idx)) / (n_i(class_idx)*num_neighbours);
+    T(class_idx) = length(find(nn_classes(class_idxs,1:num_neighbours) == class)) / (n_i(class_idx)*num_neighbours);
 end
 
-delta_n = zeros(uniq_classes_num);
 for probe = 1:size(test_data, 1)
     test_probe = test_data(probe, :);
     
-%     distance = sqrt(sum(abs(ones(train_amount, 1) * test_probe - train_data) .^ 2, 2));
     distance = dist_fcn(train_data, test_probe);
-    [sortDistance, sortDistanceIdx] = sort(distance);
+    [~, sortDistanceIdx] = sort(distance);
     x_nn_classes = classes(sortDistanceIdx(1:num_neighbours));
 
     k_i = zeros(uniq_classes_num, 1);
@@ -63,7 +61,7 @@ for probe = 1:size(test_data, 1)
        classes_num_ij(j) = length(negative_dif);
 
        if(classes_num_ij(j) > 0)
-           classes_num_jj(j) = length(find(orig_nn_class(negative_dif) == class_idx));
+           classes_num_jj(j) = length(find(orig_nn_class(negative_dif) == test_label));
        end
     end
     
@@ -76,6 +74,6 @@ for probe = 1:size(test_data, 1)
     end
     
     [~, index] = max(predictions);
-    PredictionLabel(probe) = uniq_classes(index);     
+    PredictionLabel(probe) = uniq_classes(index);
 end
 PredictionLabel = PredictionLabel';
