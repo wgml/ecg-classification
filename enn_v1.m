@@ -16,7 +16,7 @@ NumClass = length(unique(TrainingLabel));
 
 %% Preprocessing stage: Build weighted KNN map in training data set
 [weightedKNNDistance, weightedKNNLabel, TSOri] = buildWeightedKNNMap(TrainingData, TrainingLabel, NumClass, K);
-
+TSOri(1)
 NumTrainingEachClass = zeros(NumClass, 1);
 for i = 1 : NumClass
     NumTrainingEachClass(i) = length(find(TrainingLabel == i));
