@@ -1,16 +1,20 @@
 // tip: http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html
 
 #include <iostream>
-#include "algorithm/FileLoader.h"
-#include "algorithm/KNN.h"
-#include "algorithm/ENN.h"
 #include <array>
 #include <sstream>
 #include <chrono>
+#include <memory>
+
+#include "algorithm/FileLoader.h"
+#include "algorithm/KNN.h"
+#include "algorithm/ENN.h"
 
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 using std::chrono::duration_cast;
+
+using NNPtr = std::shared_ptr<NNAlgorithm>;
 
 int main() {
 	std::array<std::string, 38> files{ {
@@ -27,8 +31,7 @@ int main() {
 	for (auto &file : files) {
 		auto start_time = high_resolution_clock::now();
 		const auto K = 3;
-//		KNN knn_classifier{3};
-		ENN enn_classifier{K};
+		NNPtr classifier = std::make_shared<ENN>(K);
 		KNN::DataType train_data;
 		KNN::LabelType train_label;
 		KNN::DataType test_data;
@@ -36,23 +39,23 @@ int main() {
 		KNN::LabelType classify_label;
 
 		std::stringstream data_file;
-		data_file << "/home/vka/Programming/C/workspace/ecg-classification/ReferencyjneDane2/" << file << "/ConvertedQRSRawData_2.txt";
+		data_file << "/home/vka/Programming/C/workspace/ecg-classification/data/ReferencyjneDane2/" << file << "/ConvertedQRSRawData_2.txt";
 		std::stringstream class_file;
-		class_file << "/home/vka/Programming/C/workspace/ecg-classification/ReferencyjneDane2/" << file << "/Class_IDs_2.txt";
+		class_file << "/home/vka/Programming/C/workspace/ecg-classification/data/ReferencyjneDane2/" << file << "/Class_IDs_2.txt";
 
 		FileLoader::load(data_file.str(), class_file.str(),
 				train_data, test_data, train_label, test_label, 1, 2.0 / 3);
 		auto post_load = high_resolution_clock::now();
 
-		enn_classifier.train(train_data, train_label);
+		classifier->train(train_data, train_label);
 
 		auto post_train = high_resolution_clock::now();
 
-		enn_classifier.classify(test_data, classify_label);
+		classifier->classify(test_data, classify_label);
 
 		auto post_classify = high_resolution_clock::now();
 
-		auto accuracy = enn_classifier.accuracy(test_label, classify_label);
+		auto accuracy = classifier->accuracy(test_label, classify_label);
 
 		auto total_time = duration_cast<milliseconds>(post_classify - start_time).count();
 		auto load_time = duration_cast<milliseconds>(post_load - start_time).count();

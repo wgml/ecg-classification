@@ -10,12 +10,12 @@ struct KNN : public NNAlgorithm {
 	{}
 
 	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
-	virtual void classify(const DataType &test_data, LabelType &result) override;
+	virtual void classify(const DataType &test_data, LabelType &result) const override;
 
 	virtual ~KNN() = default;
 
 private:
-	ClassType get_mode_from_k_neighbours(DistanceType &distances);
+	ClassType get_mode_from_k_neighbours(DistanceType &distances) const;
 
 	DataType train_data;
 	LabelType train_labels;

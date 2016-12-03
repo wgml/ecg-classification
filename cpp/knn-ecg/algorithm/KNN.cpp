@@ -8,7 +8,7 @@ void KNN::train(const KNN::DataType &train_data, const KNN::LabelType &train_lab
 	this->train_labels = train_labels;
 }
 
-void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) {
+void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) const {
 	long test_amount = test_data.rows();
 	if (test_amount == 0)
 		return;
@@ -23,7 +23,7 @@ void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) {
 	}
 }
 
-KNN::ClassType KNN::get_mode_from_k_neighbours(KNN::DistanceType &distances) {
+KNN::ClassType KNN::get_mode_from_k_neighbours(KNN::DistanceType &distances) const {
 
 	const auto samples = distances.rows();
 	IndexType indexes{samples};

@@ -9,6 +9,7 @@
 #include <iterator>
 #include <cmath>
 #include <Eigen/Dense>
+
 #include "NNAlgorithm.h"
 
 class FileLoader {
@@ -99,11 +100,13 @@ private:
 	}
 
 	static void normalize(NNAlgorithm::DataType &data) {
+		const unsigned int stdev_degrees_of_freedom = 1; // matlab-compatible result
 		for (auto col = 0; col < data.cols(); col++) {
 			auto data_column = data.col(col);
 			const auto mean = data_column.mean();
-			const auto stdev = std::sqrt((data_column.array() - mean).square().mean());
 			data_column.array() -= mean;
+			const auto sample_num = data_column.rows();
+			const auto stdev = std::sqrt((data_column.array()).square().sum() / (sample_num - stdev_degrees_of_freedom));
 			data_column.array() /= stdev;
 		}
 	}

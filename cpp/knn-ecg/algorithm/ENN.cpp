@@ -56,7 +56,7 @@ void ENN::train(const ENN::DataType &train_data, const ENN::LabelType &train_lab
 	}
 }
 
-void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) {
+void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) const {
 	auto test_amount = test_data.rows();
 	auto train_amount = train_data.rows();
 	const auto uniq_labels_num = unique_labels.rows();
@@ -79,7 +79,6 @@ void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) {
 		for (unsigned int k = 0; k < K; k++) {
 			x_nn_labels(k) = train_labels(distance_indexes(k));
 		}
-
 		Eigen::VectorXi k_i{uniq_labels_num};
 
 		for (unsigned int i = 0; i < uniq_labels_num; i++) {
@@ -90,7 +89,6 @@ void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) {
 			}
 			k_i(i) = k_i_val;
 		}
-
 		Eigen::VectorXd predictions{uniq_labels_num};
 		Eigen::VectorXi labels_num_ij{uniq_labels_num};
 		Eigen::VectorXi labels_num_jj{uniq_labels_num};
@@ -114,15 +112,13 @@ void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) {
 			labels_num_ij(label_idx) = labels_num_ij_val;
 			labels_num_jj(label_idx) = labels_num_jj_val;
 		}
-
 		for (unsigned int label_idx = 0; label_idx < uniq_labels_num; label_idx++) {
 			unsigned int delta_n_jj = labels_num_ij(label_idx) - labels_num_jj(label_idx);
 			double s1 = (delta_n_jj + k_i(label_idx) - T(label_idx) * K) / ((n_i(label_idx) + 1) * K);
 			double s2 = 0;
 			for (unsigned int i = 0; i < uniq_labels_num; i++)
-				s2 += (1.0 * labels_num_jj(i));
-			s2 -= labels_num_jj(label_idx);
-			s2 /= n_i(label_idx) * K;
+				s2 += (1.0 * labels_num_jj(i)) / (n_i(i) * K);
+			s2 -= (1.0 * labels_num_jj(label_idx)) / (n_i(label_idx) * K);
 			predictions(label_idx) = s1 - s2;
 		}
 		double max_pred = NAN;

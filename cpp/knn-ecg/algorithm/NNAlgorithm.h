@@ -18,9 +18,9 @@ struct NNAlgorithm {
 	{}
 
 	virtual void train(const DataType &train_data, const LabelType &train_labels) = 0;
-	virtual void classify(const DataType &test_data, LabelType &result) = 0;
+	virtual void classify(const DataType &test_data, LabelType &result) const = 0;
 
-	double accuracy(const LabelType &expected, const LabelType &actual) {
+	static double accuracy(const LabelType &expected, const LabelType &actual) {
 		assert(expected.rows() == actual.rows());
 		int samples = static_cast<int>(expected.rows());
 		int matched = 0;
@@ -32,14 +32,14 @@ struct NNAlgorithm {
 		return (100.0 * matched) / samples;
 	}
 
-	void distance(const DataType &train_data, const DataType &test_sample, DistanceType &distances) {
+	static void distance(const DataType &train_data, const DataType &test_sample, DistanceType &distances) {
 		assert(test_sample.rows() == 1);
 		assert(train_data.rows() == distances.rows());
 		assert(train_data.cols() == test_sample.cols());
 		distances = (DataType::Ones(train_data.rows(), 1) * test_sample - train_data).array().square().rowwise().sum().sqrt().matrix();
 	}
 
-	ClassType mode(const LabelType &labels) {
+	static ClassType mode(const LabelType &labels) {
 		assert(labels.rows() > 0);
 
 		std::unordered_map<ClassType, int> occurences;

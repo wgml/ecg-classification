@@ -11,7 +11,7 @@ struct ENN : public NNAlgorithm {
 
 	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
 
-	virtual void classify(const DataType &test_data, LabelType &result) override;
+	virtual void classify(const DataType &test_data, LabelType &result) const override;
 
 	virtual ~ENN() = default;
 
