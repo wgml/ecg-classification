@@ -1,0 +1,4 @@
+\contentsline {chapter}{\numberline {1}Algorytm kNN}{2}
+\contentsline {chapter}{\numberline {2}Algorytm eNN}{3}
+\contentsline {section}{\numberline {2.1}Podstawowa wersja algorytmu}{3}
+\contentsline {section}{\numberline {2.2}Alternatywna wersja algorytmu}{5}
