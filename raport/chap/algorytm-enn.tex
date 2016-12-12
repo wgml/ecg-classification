@@ -5,7 +5,7 @@ Algorytm kNN pomimo wielu swoich zalet ma także kilka wad, które w niektórych
 
 Jako rozwinięcie algorytmu kNN został stworzony algorytm eNN (\textit{ang. Extended Nearest Neighbours}) \cite{haibo-he}. Zaproponowana metoda podczas klasyfikacji bierze pod uwagę nie tylko k najbliższych sąsiadów klasyfikowanego obiektu, ale również ich otoczenie. 
 
-Dla uproszczenia opis algorytmu zostanie przeprowadzony dla przypadku klasyfikacji pomiędzy dwoma klasami. Uogólnienie algorytmu dla dowolnej ilości klas sprowadza się jedynie do większej złożoności obliczeniowej. Dla każdego z k najbliższych sąsiadów próbki ze zbioru testowego wyznaczana jest funkcja statystyczna T opisująca otoczenie w jakim się znajduje. Funkcja T wyznaczana jest według wzoru:
+Dla uproszczenia opis metody zostanie przeprowadzony dla przypadku klasyfikacji pomiędzy dwoma klasami. Uogólnienie algorytmu dla dowolnej ilości klas sprowadza się jedynie do większej złożoności obliczeniowej. Dla każdego z k najbliższych sąsiadów próbki ze zbioru testowego wyznaczana jest funkcja statystyczna T opisująca otoczenie w jakim się znajduje. Funkcja T wyznaczana jest według wzoru:
 
 \begin{equation}
 T_{i} = \frac{1}{n_i k} {\sum_{x \in S_i} \sum_{r=1}^{k} I_r (x,S \in (S_1 \cup S_2))} 
