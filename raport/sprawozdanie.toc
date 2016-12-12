@@ -1,6 +1,0 @@
-\contentsline {chapter}{\numberline {1}Wprowadzenie}{2}
-\contentsline {chapter}{\numberline {2}Proponowane rozwi\IeC {\k a}zanie}{4}
-\contentsline {chapter}{\numberline {3}Algorytm kNN}{6}
-\contentsline {chapter}{\numberline {4}Algorytm eNN}{8}
-\contentsline {section}{\numberline {4.1}Podstawowa wersja algorytmu}{8}
-\contentsline {section}{\numberline {4.2}Alternatywna wersja algorytmu}{10}

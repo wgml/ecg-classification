@@ -1,0 +1,24 @@
+\chapter{Proponowane rozwiązanie}
+\large{
+Autorzy badali możliwość wykorzystania algorytmu kNN (\textit{k Nearest Neighbours}) oraz jego rozszerzonej wersji, eNN (\textit{extended Nearest Neighbours}) do zaprojektowania zautomatyzowanego procesu klasyfikacji zespołów QRS do predefiniowanych grup. Opis algorytmów przedstawiono w rozdziałach \ref{chap:knn} i \ref{chap:enn}.
+
+Metody klasy \textit{NN} wymagają przedstawienia danych wejściowych w postaci wektora cech o ustalonym wymiarze. Zdecydowano się wykorzystać w tym celu dane dostępne w opracowaniu \cite{heart-class-module}. Uwzględniono przy tym klasyfikację w zbiorze trzech klas, zaproponowaną przez autorów, a także w zbiorze uwzględniającym wszystkie klasy definiowane przez autorów bazy \textit{MIT-DB}.
+
+Dane wejściowe opisywane są wektorem składającym się z osiemnastu cech. Wektor zawiera informacje na temat chwil wystąpienia kolejnych elementów kompleksu QRS a także wartości wartość sygnału w istotnych chwilach. Jedna z kolumn - chwila wystąpienia załamka R - związana jest jednoznacznie z badanym sygnałem EKG i nie pozwala na klasyfikację w uogólnionym zbiorze danych, z tego powodu jest ignorowana w zaprojektowanym rozwiązaniu.
+
+Zaprojektowano referencyjną implementację algorytmów \textit{kNN} oraz \textit{eNN} w oprogramowaniu \textit{Matlab}, a po potwierdzeniu jej poprawności, zgodną z nią implementację w języku \textit{C++}. Wykorzystano również bibliotekę \textit{Eigen} \cite{eigen-www}, pozwalającą na optymalizację operacji matematycznych na macierzach i wektorach.
+
+Cykl działania aplikacji podzielić można na dwa etapy.
+\begin{enumerate}
+	\item Proces uczenia.
+
+Program uczony jest przy użyciu wybranego zbioru danych wejściowych wraz z poprawną klasyfikacją każdego wektora. Dane te są zapamiętywane i wykorzystywane w kolejnym etapie pracy.			
+	
+	\item
+	Klasyfikacja danych wejściowych.
+	
+Aplikacja pozwala na klasyfikację dowolnej liczby wektorów danych, porównując je z posiadanym zbiorem referencyjnym. Wyjściem programu na wejście zawierające jeden wektor testowy jest klasa, do której został on przypisany.
+\end{enumerate}
+
+Test poprawności działania implementacji wymagał podzielenia znanego zbioru danych na podzbiory - uczący i testowy, wraz ze związanymi z nimi klasami. Przyjęto podział w stosunku dwa do jednego. Działanie algorytmu badane było niezależnie dla każdego pliku wejściowego.
+}
