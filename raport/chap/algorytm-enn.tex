@@ -5,7 +5,7 @@ Algorytm kNN pomimo wielu swoich zalet ma także kilka wad, które w niektórych
 
 Jako rozwinięcie algorytmu kNN został stworzony algorytm eNN (\textit{ang. Extended Nearest Neighbours}) \cite{haibo-he}. Zaproponowana metoda podczas klasyfikacji bierze pod uwagę nie tylko k najbliższych sąsiadów klasyfikowanego obiektu, ale również ich otoczenie. 
 
-Dla uproszczenia opis metody zostanie przeprowadzony dla przypadku klasyfikacji pomiędzy dwoma klasami. Uogólnienie algorytmu dla dowolnej ilości klas sprowadza się jedynie do większej złożoności obliczeniowej. Dla każdego z k najbliższych sąsiadów próbki ze zbioru testowego wyznaczana jest funkcja statystyczna T opisująca otoczenie w jakim się znajduje. Funkcja T wyznaczana jest według wzoru:
+Dla uproszczenia opis metody zostanie przeprowadzony dla przypadku klasyfikacji pomiędzy dwoma klasami. Uogólnienie algorytmu dla dowolnej ilości klas sprowadza się jedynie do większej złożoności obliczeniowej. Dla każdego z k najbliższych sąsiadów próbki ze zbioru testowego, wyznaczana jest funkcja statystyczna T opisująca otoczenie w jakim się znajduje. Funkcja T wyznaczana jest według wzoru:
 
 \begin{equation}
 T_{i} = \frac{1}{n_i k} {\sum_{x \in S_i} \sum_{r=1}^{k} I_r (x,S \in (S_1 \cup S_2))} 
@@ -41,9 +41,9 @@ Klasyfikacja próbki do odpowiedniej klasy odbywa się poprzez wybór maksymalne
 
 \newpage
 \section{Alternatywna wersja algorytmu}
-Analizując podstawową wersję algorytmu eNN można zaobserwować konieczność wyznaczenia wartości $T_i^j$ dla każdej kolejnej klasyfikowanej próbki. Wiąże się to  ze wzrostem złożoności obliczeniowej co nie jest pożądane w przypadku dużych zbiorów testowych. Rozwiązaniem tego problemu jest równoważna wersja algorytmu eNN, która została przedstawiona w tym paragrafie. 
+Analizując podstawową wersję algorytmu eNN można zaobserwować konieczność wyznaczenia wartości $T_i^j$ dla każdej kolejnej klasyfikowanej próbki. Wiąże się to  ze znacznym wzrostem złożoności obliczeniowej co nie jest pożądane w przypadku dużych zbiorów testowych. Rozwiązaniem tego problemu jest równoważna wersja algorytmu eNN, która została przedstawiona w tym paragrafie. 
 
-W rozważanej wersji algorytmu pod uwagę brane jest nie tylko kto znajduje się w zbiorze najbliższych sąsiadów klasyfikowanej próbki Z ale także które próbki ze zbioru uczącego biorą pod uwagę próbkę Z jako jednego z k najbliższych sąsiadów. W tym celu próbka Z zostaje przypisana kolejno do wszystkich klas. W każdym przypadku zostają wyznaczone wartości $\Delta n_i^j$ gdzie j jest klasą do której została przypisana próbka Z, natomiast i jest klasą dla której obliczana jest zmiana ilości sąsiadów tej samej klasy. W przypadku gdy i = j zliczana jest ilość próbek klasy i dla której wzrosła ilość sąsiadów należących do tej samej klasy. W przypadku gdy $i\ \neq j$ wyznaczana jest ilość próbek klasy i dla których zmalała ilość sąsiadów należących do tej samej klasy.
+W rozważanej wersji algorytmu pod uwagę brane jest nie tylko kto znajduje się w zbiorze najbliższych sąsiadów klasyfikowanej próbki Z ale także które próbki ze zbioru uczącego biorą pod uwagę próbkę Z jako jednego z k najbliższych sąsiadów. W tym celu próbka Z zostaje przypisana kolejno do wszystkich klas. W każdym przypadku zostają wyznaczone wartości $\Delta n_i^j$ gdzie $j$ jest klasą do której została przypisana próbka Z, natomiast $i$ jest klasą dla której obliczana jest zmiana ilości sąsiadów tej samej klasy. W przypadku gdy $i = j$ zliczana jest ilość próbek klasy $i$ dla której wzrosła ilość sąsiadów należących do tej samej klasy. W przypadku gdy $i\ \neq j$ wyznaczana jest ilość próbek klasy $i$ dla których zmalała ilość sąsiadów należących do tej samej klasy.
 
 Dla wyznaczonych wartości $n_i^j$ klasyfikacja próbki Z realizowana jest zgodnie z zależnością:
 
@@ -52,6 +52,6 @@ f_{ENN} = arg_{j \in 1,2,..,N} max \begin{Bmatrix}
 (\frac{\Delta n_i^j + k_j -kT_i}{(n_i+1)k})
 \end{Bmatrix}_{i=j} - \sum_{i \neq j}^N \frac{\Delta n_i^j}{n_i k}
 \end{equation}\\
-gdzie k jest zdefiniowaną ilością najbliższych sąsiadów, $n_i$ jest ilością próbek należących do klasy i, a $k_i$ jest ilością najbliższych sąsiadów należących do klasy i.
+gdzie k jest zdefiniowaną ilością najbliższych sąsiadów, $n_i$ jest ilością próbek należących do klasy $i$, a $k_i$ jest ilością najbliższych sąsiadów należących do klasy $i$.
 
 Obie wersje algorytmu są równoważne, jednak w przypadku drugiej wersji na początku działania algorytmu można wyznaczyć wektor wartości $T_i$ a podczas klasyfikacji kolejnych próbek ograniczyć się do wyznaczenia zmian w otoczeniach k najbliższych sąsiadów próbki Z, dla kolejnych przypisań próbki Z do odpowiednich klas.
