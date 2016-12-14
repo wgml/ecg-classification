@@ -1,0 +1,30 @@
+\section{Prototyp algorytmu}
+Po zapoznaniu z wiadomościami teoretycznymi i ustaleniu zakresu projektu, przystąpiono do zaprojektowania prototypów algorytmów $kNN$ oraz $eNN$ w środowisku Matlab.
+
+Algorytm badany był przy użyciu zbioru sygnałów $EKG$ zredukowanych do opisu cech zespołów $QRS$, uporządkowanych do zbioru trzech klas. \textbf{JAKICH!}
+
+Dane wejściowe poddano normalizacji, która opisana jest równaniem \ref{eq:normalize-data}.
+
+\begin{equation}
+\label{eq:normalize-data}
+x_j = \frac{x_j - \mu(x_j)}{\sigma(x_j)}, j=1,2...N
+\end{equation}
+gdzie $x_j$ opisuje $j$-tą kolumnę macierzy danych.
+
+Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tabeli \ref{tab:matlab-skutecznosc}.
+
+\begin{table}[!htb]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
+		\hline
+		& \multicolumn{4}{c|}{$kNN$} & \multicolumn{4}{|c|}{$eNN$} \\
+		\hline
+		$Plik$ & 1 & 2 & 3 & $\Sigma$ & 1 & 2 & 3 & $\Sigma$ \\
+		\hline
+	\end{tabular}
+	\caption{Wyniki pracy algorytmu kNN}
+	\label{tab:matlab-skutecznosc}
+	
+
+\end{table}
++ enn + czas wykonania

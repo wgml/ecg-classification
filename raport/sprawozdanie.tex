@@ -2,7 +2,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[12pt]{report}
+\documentclass[12pt]{article}
 \usepackage{polski}
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}
@@ -17,6 +17,7 @@
 \usepackage{subcaption}
 \usepackage{epstopdf}
 \usepackage{float}
+\usepackage{tabularx}
 
 \geometry{
  	a4paper, 
@@ -60,11 +61,17 @@
 \begin{document}
   
 \input{chap/spr_titlepage.tex}
-\include{chap/abstrakt}
 \tableofcontents
 
-\include{chap/wprowadzenie}
-\include{chap/algorytm-knn}
-\include{chap/algorytm-enn}
-\include{chap/literatura}
+\large{
+\pagebreak
+\input{chap/abstrakt}
+\input{chap/wprowadzenie}
+\input{chap/algorytm-knn}
+\input{chap/algorytm-enn}
+\input{chap/testy}
+
+\input{chap/literatura}
+
+}
 \end{document}
