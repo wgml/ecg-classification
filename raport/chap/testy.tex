@@ -11,20 +11,113 @@ x_j = \frac{x_j - \mu(x_j)}{\sigma(x_j)}, j=1,2...N
 \end{equation}
 gdzie $x_j$ opisuje $j$-tą kolumnę macierzy danych.
 
-Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tabeli \ref{tab:matlab-skutecznosc}.
+Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tabeli \ref{tab:matlab-skutecznosc}. Przyjęto $K=3$. Zmierzono również czas wykonania algorytmów dla wszystkich plików.
 
 \begin{table}[!htb]
 	\centering
-	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}
+	\begin{tabular}{|c|r|r|r|r|}
 		\hline
-		& \multicolumn{4}{c|}{$kNN$} & \multicolumn{4}{|c|}{$eNN$} \\
+		& \multicolumn{2}{c|}{$kNN$} & \multicolumn{2}{c|}{$eNN$} \\
 		\hline
-		$Plik$ & 1 & 2 & 3 & $\Sigma$ & 1 & 2 & 3 & $\Sigma$ \\
+		$Plik$ & Skuteczność & Czas wykonania [s] & Skuteczność & Czas wykonania [s] \\
 		\hline
+100 &  98.02\% & 0.1658 &  88.11\% & 0.4700 \\ 
+\hline
+101 &  96.78\% & 0.1061 &  94.85\% & 0.2958 \\ 
+\hline
+102 &  98.07\% & 0.1356 &  92.56\% & 0.3935 \\ 
+\hline
+103 &  98.27\% & 0.1246 &  87.88\% & 0.3563 \\ 
+\hline
+104 &  98.16\% & 0.1287 &  88.97\% & 0.3740 \\ 
+\hline
+105 &  97.87\% & 0.1823 &  88.86\% & 0.5248 \\ 
+\hline
+106 &  98.86\% & 0.0989 &  83.85\% & 0.2724 \\ 
+\hline
+107 &  98.47\% & 0.0939 &  90.85\% & 0.2619 \\ 
+\hline
+108 &  96.71\% & 0.0677 &  85.83\% & 0.1887 \\ 
+\hline
+109 &  97.87\% & 0.1638 &  88.60\% & 0.4717 \\ 
+\hline
+111 &  98.63\% & 0.1130 &  90.29\% & 0.3206 \\ 
+\hline
+112 &  97.99\% & 0.1813 &  92.79\% & 0.5302 \\ 
+\hline
+113 &  98.16\% & 0.0960 &  88.29\% & 0.2647 \\ 
+\hline
+114 &  97.44\% & 0.0321 &  86.54\% & 0.0843 \\ 
+\hline
+115 &  98.77\% & 0.1087 &  86.33\% & 0.3057 \\ 
+\hline
+117 &  96.59\% & 0.0707 &  87.78\% & 0.1948 \\ 
+\hline
+118 &  98.12\% & 0.1406 &  88.74\% & 0.4063 \\ 
+\hline
+119 &  99.24\% & 0.1129 &  91.24\% & 0.3151 \\ 
+\hline
+121 &  97.58\% & 0.1028 &  80.65\% & 0.2823 \\ 
+\hline
+122 &  97.58\% & 0.1737 &  87.15\% & 0.5027 \\ 
+\hline
+123 &  96.82\% & 0.0713 &  87.67\% & 0.1973 \\ 
+\hline
+124 &  96.73\% & 0.0694 &  87.35\% & 0.1901 \\ 
+\hline
+200 &  99.10\% & 0.1163 &  82.88\% & 0.3250 \\ 
+\hline
+201 &  96.60\% & 0.0854 &  92.67\% & 0.2503 \\ 
+\hline
+202 &  97.58\% & 0.1271 &  89.90\% & 0.3596 \\ 
+\hline
+203 &  97.89\% & 0.1660 &  87.48\% & 0.4783 \\ 
+\hline
+205 &  98.03\% & 0.1892 &  97.10\% & 0.5376 \\ 
+\hline
+208 &  98.12\% & 0.2058 &  92.03\% & 0.5999 \\ 
+\hline
+209 &  97.88\% & 0.2533 &  89.42\% & 0.7110 \\ 
+\hline
+210 &  97.91\% & 0.1686 &  92.99\% & 0.4871 \\ 
+\hline
+212 &  97.81\% & 0.2062 &  88.40\% & 0.6042 \\ 
+\hline
+213 &  98.51\% & 0.2764 &  85.89\% & 0.8126 \\ 
+\hline
+214 &  99.11\% & 0.1176 &  88.28\% & 0.3398 \\ 
+\hline
+215 &  98.10\% & 0.2922 &  88.95\% & 0.8516 \\ 
+\hline
+217 &  99.39\% & 0.1138 &  84.24\% & 0.3163 \\ 
+\hline
+219 &  98.32\% & 0.1313 &  89.09\% & 0.3745 \\ 
+\hline
+220 &  98.68\% & 0.1172 &  92.82\% & 0.3367 \\ 
+\hline
+221 &  97.74\% & 0.1638 &  85.03\% & 0.4674 \\ 
+\hline
+222 &  97.42\% & 0.1672 &  85.40\% & 0.4860 \\ 
+\hline
+223 &  97.59\% & 0.1601 &  86.08\% & 0.4525 \\ 
+\hline
+228 &  98.14\% & 0.0919 &  92.05\% & 0.2574 \\ 
+\hline
+230 &  97.73\% & 0.1259 &  84.96\% & 0.3714 \\ 
+\hline
+231 &  97.30\% & 0.0869 &  90.56\% & 0.2352 \\ 
+\hline
+232 &  98.13\% & 0.0949 &  85.20\% & 0.2727 \\ 
+\hline
+233 &  98.03\% & 0.1922 &  89.55\% & 0.5452 \\ 
+\hline
+234 &  98.03\% & 0.2122 &  92.25\% & 0.6151 \\ 
+\hline
+		
 	\end{tabular}
-	\caption{Wyniki pracy algorytmu kNN}
+	\caption{Wyniki pracy algorytmu kNN i eNN w środowisku Matlab.}
 	\label{tab:matlab-skutecznosc}
 	
-
 \end{table}
-+ enn + czas wykonania
+
+Czas wykonania dla algorytmu $eNN$ jest zwykle około trzykrotnie dłuższy. Zaobserwowano również trudność w klasyfikacji mało licznych grup przez oba algorytmy, wyniki osiągane przez $eNN$ są jednak zwykle lepsze dla danych wejściowych tego typu.
