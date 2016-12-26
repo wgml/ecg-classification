@@ -1,0 +1,6 @@
+[submodule "cpp/knn-ecg/deps/libigl"]
+	path = cpp/knn-ecg/deps/libigl
+	url = https://github.com/libigl/libigl
+[submodule "cpp/knn-ecg/deps/eigen"]
+	path = cpp/knn-ecg/deps/eigen
+	url = https://github.com/RLovelett/eigen

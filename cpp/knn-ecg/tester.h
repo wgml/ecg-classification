@@ -1,5 +1,3 @@
-// tip: http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html
-
 #include <iostream>
 #include <array>
 #include <sstream>
@@ -7,16 +5,13 @@
 #include <memory>
 
 #include "algorithm/FileLoader.h"
-#include "algorithm/KNN.h"
-#include "algorithm/ENN.h"
+#include "algorithm/NNAlgorithm.h"
 
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 using std::chrono::duration_cast;
 
-using NNPtr = std::shared_ptr<NNAlgorithm>;
-
-int main() {
+void test(std::shared_ptr<NNAlgorithm> classifier) {
 	std::array<std::string, 38> files{ {
 		"100", "101", "102", "103", "104",
 		"105", "106", "108", "109", "111",
@@ -30,13 +25,11 @@ int main() {
 
 	for (auto &file : files) {
 		auto start_time = high_resolution_clock::now();
-		const auto K = 3;
-		NNPtr classifier = std::make_shared<ENN>(K);
-		KNN::DataType train_data;
-		KNN::LabelType train_label;
-		KNN::DataType test_data;
-		KNN::LabelType test_label;
-		KNN::LabelType classify_label;
+		NNAlgorithm::DataType train_data;
+		NNAlgorithm::LabelType train_label;
+		NNAlgorithm::DataType test_data;
+		NNAlgorithm::LabelType test_label;
+		NNAlgorithm::LabelType classify_label;
 
 		std::stringstream data_file;
 		data_file << "/home/vka/Programming/C/workspace/ecg-classification/data/ReferencyjneDane2/" << file << "/ConvertedQRSRawData_2.txt";
@@ -69,5 +62,4 @@ int main() {
 				<< classify_time << "ms for classification)." << std::endl;
 	}
 	std::cerr << "Bye" << std::endl;
-	return 0;
 }
