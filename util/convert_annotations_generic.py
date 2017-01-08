@@ -1,15 +1,21 @@
 import pprint
 import os
+import sys
 
 pp = pprint.PrettyPrinter(indent=2)
 
-files = os.listdir('ReferencyjneDane2')
+if len(sys.argv) is 1:
+    directory = 'ReferencyjneDane'
+else:
+    directory = sys.argv[1]
+
+files = os.listdir(directory)
 
 anno_map = {}
 id = 1
 # get class ids
 for fid in files:
-	with open('./ReferencyjneDane2/' + fid + '/annotations.txt') as f:
+	with open(directory + '/' + fid + '/annotations.txt') as f:
 		annotations = [x.split()[2] for x in f if x.strip()]
 		for a in set(annotations):
 			if a not in anno_map:
@@ -19,10 +25,10 @@ pp.pprint(anno_map)
 pp.pprint({'Expected classes': len(anno_map)})
 
 for fid in files:
-	anno_file = './ReferencyjneDane2/' + fid + '/annotations.txt'
-	data_file = './ReferencyjneDane2/' + fid + '/ConvertedQRSRawData.txt'
-	save_file = './ReferencyjneDane2/' + fid + '/Class_IDs_2.txt'
-	data_save_file = './ReferencyjneDane2/' + fid + '/ConvertedQRSRawData_2.txt'
+	anno_file = directory + '/' + fid + '/annotations.txt'
+	data_file = directory + '/' + fid + '/ConvertedQRSRawData.txt'
+	save_file = directory + '/' + fid + '/Class_IDs_2.txt'
+	data_save_file = directory + '/' + fid + '/ConvertedQRSRawData_2.txt'
 
 	#load anno
 	with open(anno_file) as f:
