@@ -3,9 +3,9 @@ clear all
 
 K = 3;
 expected_classes_num = 10;
-train_data_percentage = 2/3;
+train_data_percentage = 0.7;
 
-files = dir('../data/ReferencyjneDane2/*');
+files = dir('../data/data_reused_labels/*');
 files = files(3:end); %remove . and ..
 files_num = length(files);
 success_rate = zeros(files_num, 2);
@@ -13,23 +13,16 @@ by_class_comp = zeros(files_num, 2, expected_classes_num);
 class_freq = zeros(files_num, expected_classes_num);
 for i = 1:files_num
     file = files(i, 1).name
-    qrs_file = sprintf('../data/ReferencyjneDane2/%s/ConvertedQRSRawData_2.txt', file);
-    classes_file = sprintf('../data/ReferencyjneDane2/%s/Class_IDs_2.txt', file);
+    qrs_file = sprintf('../data/data_reused_labels/%s/data.txt', file);
+    classes_file = sprintf('../data/data_reused_labels/%s/label.txt', file);
     idata = importdata(qrs_file);
     load(classes_file);
 
     data=idata(:,2:18);
     num_samples = size(data,1);
     
-    Class_IDs = Class_IDs_2; % if using refdane2
+    Class_IDs = label;
        
-    %permute
-%     num_samples = size(data,1);
-%     permuted_idx = randperm(num_samples);
-%     data = data(permuted_idx, :);
-%     Class_IDs = Class_IDs(permuted_idx);
-%     data = normalize_data(data);
-
     for j = 1:size(data,2)
         vec = data(:,j);
         vec = vec - mean(vec);
@@ -48,7 +41,6 @@ for i = 1:files_num
     test_data_amount = length(test_data);
     test_label = Class_IDs(train_data_amount+1:train_data_amount+test_data_amount);
     
-%     [train_data_trunc, train_label_trunc] = truncate_train_data(train_data, train_label, expected_classes_num, 1);
     tic()
     classes_knn = knn(train_data, train_label, test_data, K);
     knn_time = toc()
@@ -56,7 +48,6 @@ for i = 1:files_num
     classes_enn = enn(train_data, train_label, test_data, K); 
     enn_time = toc()
     
-    % compare
     correct = sum(test_label == classes_knn);
     success_rate(i, 1)  = 100 * correct / test_data_amount;
     correct = sum(test_label == classes_enn);

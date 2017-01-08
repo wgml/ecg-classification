@@ -4,24 +4,21 @@ import sys
 
 pp = pprint.PrettyPrinter(indent=2)
 
-if len(sys.argv) is 1:
-    directory = 'ReferencyjneDane'
-else:
-    directory = sys.argv[1]
+directory = sys.argv[1]
 
 files = os.listdir(directory)
 
 for fid in files:
 	anno_file = directory + '/' + fid + '/annotations.txt'
 	data_file = directory + '/' + fid + '/ConvertedQRSRawData.txt'
-	save_file = directory + '/' + fid + '/Class_IDs_2.txt'
-	data_save_file = directory + '/' + fid + '/ConvertedQRSRawData_2.txt'
+	save_file = directory + '/' + fid + '/label.txt'
+	data_save_file = directory + '/' + fid + '/data.txt'
 
 	#load anno
 	with open(anno_file) as f:
-	    f=[x.strip() for x in f if x.strip()]
-	    data=[tuple(map(str,x.split())) for x in f[:]]
-	    annotations = {x[1]: x[2] for x in data}
+		f=[x.strip() for x in f if x.strip()]
+		data=[tuple(map(str,x.split())) for x in f[:]]
+		annotations = {x[1]: x[2] for x in data}
 
 	#translate anno
 	anno_map = {}
@@ -31,8 +28,7 @@ for fid in files:
 			anno_map[v] = id
 			id += 1
 		annotations[k] = anno_map[v]
-	pp.pprint(anno_map)
-	pp.pprint({'fid': fid, 'Expected classes': len(anno_map)})
+	unmet_annotations = {v:k for k,v in anno_map.items()}
 
 	#load data
 	with open(data_file) as f:
@@ -46,7 +42,11 @@ for fid in files:
 	with open(save_file, 'w') as f:
 		for key, value in sorted(annotations.items()):
 			f.write(str(value) + os.linesep)
+			unmet_annotations.pop(value, None)
 
 	with open(data_save_file, 'w') as f:
 		for key, value in sorted(data.items()):
 			f.write(str(value) + os.linesep)
+
+	unmet_annotations = set(v for k, v in unmet_annotations.items())	
+	pp.pprint({'fid': fid, 'Expected classes': anno_map, 'Class num': len(anno_map), 'Unmet annotations': unmet_annotations})

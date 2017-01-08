@@ -113,7 +113,7 @@ void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) const
 			labels_num_jj(label_idx) = labels_num_jj_val;
 		}
 		for (unsigned int label_idx = 0; label_idx < uniq_labels_num; label_idx++) {
-			unsigned int delta_n_jj = labels_num_ij(label_idx) - labels_num_jj(label_idx);
+			auto delta_n_jj = labels_num_ij(label_idx) - labels_num_jj(label_idx);
 			double s1 = (delta_n_jj + k_i(label_idx) - T(label_idx) * K) / ((n_i(label_idx) + 1) * K);
 			double s2 = 0;
 			for (unsigned int i = 0; i < uniq_labels_num; i++)
