@@ -53,14 +53,13 @@ for i = 1:files_num
     correct = sum(test_label == classes_enn);
     success_rate(i, 2)  = 100 * correct / test_data_amount;
     
-    % positive -> label != 1
-    % negative -> label == 1
+    % positive -> 
 %%knn
     Tp = sum(classes_knn ~= 1 & test_label ~= 1);
     Tn = sum(classes_knn == 1 & test_label == 1);
     Fp = sum(classes_knn ~= 1 & test_label == 1);
     Fn = sum(classes_knn == 1 & test_label ~= 1);  
-
+    
     sensitivity(i,1) = Tp/(Tp+Fn);
     specificity(i,1) = Tn/(Tn+Fp);
     
