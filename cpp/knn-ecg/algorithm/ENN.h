@@ -5,7 +5,7 @@
 
 struct ENN : public NNAlgorithm {
 
-	ENN(const size_t K)
+	ENN(unsigned int K)
 	: NNAlgorithm(K)
 	{}
 

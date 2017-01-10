@@ -94,18 +94,11 @@ void normalize(NNAlgorithm::DataType &first, NNAlgorithm::DataType &second) {
   }
 }
 
-void split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
-           double split_ratio,
-           NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
-           NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
-  assert(split_ratio >= 0 && split_ratio <= 1);
-  assert(data.rows() == label.rows());
-  int samples = static_cast<int>(data.rows());
+void do_split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+              long samples1, long samples2,
+              NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
+              NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
   int sample_size = static_cast<int>(data.cols());
-
-  int samples1 = static_cast<int>(samples * split_ratio);
-  int samples2 = samples - samples1;
-
   data_out1.resize(samples1, sample_size);
   data_out1 << data.block(0, 0, samples1, sample_size);
 
@@ -117,6 +110,29 @@ void split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &labe
 
   label_out2.resize(samples2, 1);
   label_out2 << label.block(samples1, 0, samples2, 1);
+}
+
+void split_with_ratio(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+                      double split_ratio,
+                      NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
+                      NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
+  assert(split_ratio >= 0 && split_ratio <= 1);
+  assert(data.rows() == label.rows());
+  long samples = static_cast<long>(data.rows());
+  long samples1 = static_cast<long>(samples * split_ratio);
+  long samples2 = samples - samples1;
+  do_split(data, label, samples1, samples2, data_out1, data_out2, label_out1, label_out2);
+}
+
+void split_with_value(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+                      long train_samples,
+                      NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
+                      NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
+  assert(train_samples >= 0 && train_samples <= data.rows());
+  assert(data.rows() == label.rows());
+  long samples1 = train_samples;
+  long samples2 = static_cast<long>(data.rows()) - samples1;
+  do_split(data, label, samples1, samples2, data_out1, data_out2, label_out1, label_out2);
 }
 }
 
@@ -130,8 +146,8 @@ void load(const std::string &data_file, const std::string &label_file,
   load_data(data_file, data_tmp, skip_first_n_cols);
   load_label(label_file, label_tmp);
   normalize(data_tmp);
-  split(data_tmp, label_tmp, split_ratio,
-        train_data, test_data, train_label, test_label);
+  split_with_ratio(data_tmp, label_tmp, split_ratio,
+                   train_data, test_data, train_label, test_label);
 }
 
 void load(const std::string &train_data_file, const std::string &test_data_file,
@@ -139,11 +155,26 @@ void load(const std::string &train_data_file, const std::string &test_data_file,
           NNAlgorithm::DataType &train_data, NNAlgorithm::DataType &test_data,
           NNAlgorithm::LabelType &train_label, NNAlgorithm::LabelType &test_label,
           const int skip_first_n_cols) {
-  load_data(train_data_file, train_data, skip_first_n_cols);
-  load_data(test_data_file, test_data, skip_first_n_cols);
-  load_label(train_label_file, train_label);
-  load_label(test_label_file, test_label);
+  // unimaginably ugly but somehow faster than filling output containers directly
+
+  NNAlgorithm::DataType data_tmp1, data_tmp2, data_concat;
+  NNAlgorithm::LabelType label_tmp1, label_tmp2, label_concat;
+
+  load_data(train_data_file, data_tmp1, skip_first_n_cols);
+  load_data(test_data_file, data_tmp2, skip_first_n_cols);
+  data_concat.resize(data_tmp1.rows() + data_tmp2.rows(), data_tmp1.cols());
+  data_concat << data_tmp1, data_tmp2;
+
+  load_label(train_label_file, label_tmp1);
+  load_label(test_label_file, label_tmp2);
+  label_concat.resize(label_tmp1.rows() + label_tmp2.rows(), label_tmp1.cols());
+  label_concat << label_tmp1, label_tmp2;
+
   normalize(train_data, test_data);
+  split_with_value(data_concat, label_concat, label_tmp1.rows(),
+                   train_data, test_data, train_label, test_label);
+
+  assert(label_tmp1.rows() == train_label.rows());
 }
 }
 

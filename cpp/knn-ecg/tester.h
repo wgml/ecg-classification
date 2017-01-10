@@ -15,7 +15,7 @@ using std::chrono::duration_cast;
 
 namespace {
 void do_test(const std::vector<std::string> &directories, std::shared_ptr<NNAlgorithm> classifier,
-          bool multi_data_file = false) {
+             bool multi_data_file = false) {
   const double split_factor = 0.7;
 
   for (auto &dir : directories) {
@@ -52,7 +52,8 @@ void do_test(const std::vector<std::string> &directories, std::shared_ptr<NNAlgo
     }
 
     auto post_load = high_resolution_clock::now();
-    std::cerr << "There are " << train_data.rows() << " samples in train vector and " << test_data.rows() << " samples in test vector." << std::endl;
+    std::cerr << "There are " << train_data.rows() << " samples in train vector and "
+              << test_data.rows() << " samples in test vector." << std::endl;
     classifier->train(train_data, train_label);
 
     auto post_train = high_resolution_clock::now();

@@ -1,5 +1,4 @@
 #include "KNN.h"
-#include <iostream>
 
 #include <igl/sort.h>
 

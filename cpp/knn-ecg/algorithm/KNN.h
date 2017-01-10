@@ -5,22 +5,20 @@
 
 struct KNN : public NNAlgorithm {
 
-	KNN(const size_t K)
-	: NNAlgorithm(K)
-	{}
+  KNN(unsigned int K)
+      : NNAlgorithm(K) {}
 
-	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
-	virtual void classify(const DataType &test_data, LabelType &result) const override;
+  virtual void train(const DataType &train_data, const LabelType &train_labels) override;
 
-	virtual ~KNN() = default;
+  virtual void classify(const DataType &test_data, LabelType &result) const override;
+
+  virtual ~KNN() = default;
 
 private:
-	ClassType get_mode_from_k_neighbours(DistanceType &distances) const;
+  ClassType get_mode_from_k_neighbours(DistanceType &distances) const;
 
-	DataType train_data;
-	LabelType train_labels;
+  DataType train_data;
+  LabelType train_labels;
 };
-
-
 
 #endif /* ALGORITHM_KNN_H_ */

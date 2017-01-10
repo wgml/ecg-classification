@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(knn_ecg)
 
-set(CMAKE_CXX_FLAGS "-O3 -pedantic -Werror -Wall -Wextra -std=c++11")
+set(CMAKE_CXX_FLAGS "-O3 -pedantic -Werror -Wall -Wextra -std=c++11") # use -DNDEBUG when doing performance tests
 
 set(EIGEN_INCLUDE "${EIGEN3_INCLUDE_DIR}")
 if (NOT EIGEN_INCLUDE)
