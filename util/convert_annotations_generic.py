@@ -8,8 +8,8 @@ directory = sys.argv[1]
 
 files = os.listdir(directory)
 
-anno_map = {}
-id = 1
+anno_map = {'N': 1} # Normal beat is guaranteed to have class=1
+id = 2
 # get class ids
 for fid in files:
 	with open(directory + '/' + fid + '/annotations.txt') as f:

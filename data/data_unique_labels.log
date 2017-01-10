@@ -19,4 +19,4 @@
   '|': 3,
   '~': 6}
 {'Expected classes': 20}
-{'Unmet annotations': {'E', 'e', '"', '+', '~', 'x', '|'}}
+{'Unmet annotations': {'e', 'x', '|', '+', '~', '"', 'E'}}

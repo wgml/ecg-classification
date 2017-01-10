@@ -21,8 +21,8 @@ for fid in files:
 		annotations = {x[1]: x[2] for x in data}
 
 	#translate anno
-	anno_map = {}
-	id = 1
+	anno_map = {'N': 1} # Normal beat is guaranteed to have class=1
+	id = 2
 	for k, v in annotations.items():
 		if v not in anno_map:
 			anno_map[v] = id

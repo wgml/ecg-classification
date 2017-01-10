@@ -28,3 +28,6 @@ cat data_unique_labels/*/test_data.txt > unique_labels_concat/test_data.txt
 cat data_unique_labels/*/train_data.txt > unique_labels_concat/train_data.txt
 cat data_unique_labels/*/train_label.txt > unique_labels_concat/train_label.txt
 cat data_unique_labels/*/test_label.txt > unique_labels_concat/test_label.txt
+
+cat unique_labels_concat/train_data.txt unique_labels_concat/test_data.txt > unique_labels_concat/data.txt
+cat unique_labels_concat/train_label.txt unique_labels_concat/test_label.txt > unique_labels_concat/label.txt
