@@ -13,11 +13,11 @@ void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) const
     return;
   result.resize(test_amount, Eigen::NoChange);
 
-  DistanceType distances{train_data.rows()};
 
   #pragma omp parallel for
   for (int sample = 0; sample < test_amount; sample++) {
     const auto &test_sample = test_data.row(sample);
+    DistanceType distances{train_data.rows()};
     distance(train_data, test_sample, distances);
     result(sample) = get_mode_from_k_neighbours(distances);
   }
