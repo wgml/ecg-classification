@@ -32,7 +32,7 @@ void ENN::train(const ENN::DataType &train_data, const ENN::LabelType &train_lab
     nn_distances.row(i) = sorted_distances.block(1, 0, K, 1).transpose();
 
     for (unsigned int k = 0; k < K; k++)
-      nn_labels(i, k) = train_labels(distance_indexes(k + 1)); // todo could be speed up
+      nn_labels(i, k) = train_labels(distance_indexes(k + 1));
   }
 
   n_i = Eigen::VectorXi{uniq_labels_num, 1};
@@ -132,8 +132,3 @@ void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) const
     result(test_sample_id) = selected_label;
   }
 }
-
-/*
- * suggestions:
- * nn_distances and nn_labels can be reduced to vector (for K only)
- */

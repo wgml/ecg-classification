@@ -33,6 +33,6 @@ KNN::ClassType KNN::get_mode_from_k_neighbours(KNN::DistanceType &distances) con
   LabelType k_classes{K};
 
   for (unsigned int i = 0; i < K; i++)
-    k_classes(i) = train_labels(k_indexes(i)); //todo can be optimized
+    k_classes(i) = train_labels(k_indexes(i));
   return mode(k_classes);
 }
