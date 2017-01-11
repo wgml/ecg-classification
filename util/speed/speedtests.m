@@ -25,8 +25,7 @@ for i=1:size(knn_data,1)
     end
 end
 figure
-plot(x, both_cut, 'o--', x, train_cut, 'o--', x, test_cut, 'o--');
-title('KNN')
+plot(x, both_cut, 'ro--', x, train_cut, 'go--', x, test_cut, 'bo--');
 xlabel('Liczność ograniczonego zbioru')
 ylabel('Czas [ms]')
 grid on;
@@ -53,8 +52,7 @@ for i=1:size(enn_data,1)
     end
 end
 figure
-plot(x, both_cut, 'o--', x, train_cut, 'o--', x, test_cut, 'o--');
-title('ENN')
+plot(x, both_cut, 'ro--', x, train_cut, 'go--', x, test_cut, 'bo--');
 xlabel('Liczność ograniczonego zbioru')
 ylabel('Czas wykonania [ms]')
 grid on;

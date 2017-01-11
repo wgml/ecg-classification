@@ -26,8 +26,7 @@ Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tab
 	\centering
 	\begin{tabular}{|c|r|r|r|r|}
 		\hline
-		& \multicolumn{2}{c|}{$kNN$} & \multicolumn{2}{c|}{$eNN$} \\
-		\hline
+
 		$Plik$ & Skuteczność & Czas wykonania [s] & Skuteczność & Czas wykonania [s] \\
 		\hline
 100 & 100.00\% & 0.0567 & 99.69\% & 0.1448 \\ 
@@ -114,4 +113,4 @@ Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tab
 	
 \end{table}
 
-Wyniki otrzymane za pomocą algorytmów $kNN$ oraz $eNN$ są zbliżone do siebie z lekką przewagą algorytmu $kNN$. Duży wpływ na działanie algorytmów miał podział próbek w zbiorze uczącym na poszczególne klasy. Znaczna przewaga danych należących do klasy 1 miała negatywny wpływ na skuteczność klasyfikacji, co jest uzasadnione w przypadku korzystania z metod statystycznych. W optymalnie przygotowanym zbiorze uczącym próbki powinny być równomiernie rozłożone na wszystkie klasy. Czas wykonania algorytmu $eNN$ jest zwykle około trzykrotnie dłuższy niż w przypadku algorytmu $kNN$. Bardzo ważne okazało się zastosowanie obliczeń wektorowych, które są bardzo dobrze zoptymalizowane w środowisku Matlab i cechują się znacznie większą wydajnością niż podejście iteracyjne. W przypadku algorytmu $eNN$ różnice w czasie obliczeń przekraczały trzy rzędy wielkości.
+Wyniki otrzymane za pomocą algorytmów $kNN$ oraz $eNN$ są zbliżone do siebie z lekką przewagą na korzy algorytmu $kNN$. Duży wpływ na działanie algorytmów miał podział próbek w zbiorze uczącym na poszczególne klasy. Znaczna przewaga danych należących do klasy 1 miała negatywny wpływ na skuteczność klasyfikacji, co jest uzasadnione w przypadku korzystania z metod statystycznych. W optymalnie przygotowanym zbiorze uczącym próbki powinny być równomiernie rozłożone na wszystkie klasy. Czas wykonania algorytmu $eNN$ jest zwykle około trzykrotnie dłuższy niż w przypadku algorytmu $kNN$. Bardzo ważne okazało się zastosowanie obliczeń wektorowych, które są bardzo dobrze zoptymalizowane w środowisku Matlab i cechują się znacznie większą wydajnością niż podejście iteracyjne. W przypadku algorytmu $eNN$ różnice w czasie obliczeń przekraczały trzy rzędy wielkości.
