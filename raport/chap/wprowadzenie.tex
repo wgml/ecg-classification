@@ -13,7 +13,7 @@ Jednym z najbardziej charakterystycznych elementów typowego sygnału EKG są ze
 
 Na podstawie charakteru zespołu QRS diagnozować można szereg dysfunkcji serca. Wykorzystanie w tym celu zautomatyzowanych procedur diagnostycznych pozwala na zwiększenie prawdopodobieństwa wykrycia nieprawidłowości i przyśpiesza proces badania. Wymaga to jednak wyodrębnienia grup kompleksów o podobnych parametrach. Uzyskane grupy powinny odwzorowywać najczęściej występujące zaburzenia pracy serca.
 
-\section{Koncepcja proponowanego rozwiązanie}
+\section{Koncepcja proponowanego rozwiązania}
 
 Autorzy badali możliwość wykorzystania algorytmu kNN (\textit{k Nearest Neighbours}) oraz jego rozszerzonej wersji, eNN (\textit{extended Nearest Neighbours}) do zaprojektowania zautomatyzowanego procesu klasyfikacji zespołów QRS do predefiniowanych grup. Opis algorytmów przedstawiono w rozdziałach \ref{chap:knn} i \ref{chap:enn}.
 
@@ -35,7 +35,7 @@ Cykl działania aplikacji podzielić można na dwa etapy.
 	Aplikacja pozwala na klasyfikację dowolnej liczby wektorów danych, porównując je z posiadanym zbiorem referencyjnym. Wyjściem programu na wejście zawierające jeden wektor testowy jest klasa, do której został on przypisany.
 \end{enumerate}
 
-Test poprawności działania implementacji wymagał podzielenia znanego zbioru danych na podzbiory - uczący i testowy, wraz ze związanymi z nimi klasami. Przyjęto podział w stosunku dwa do jednego. Działanie algorytmu badane było niezależnie dla każdego pliku wejściowego.
+Test poprawności działania implementacji wymagał podzielenia znanego zbioru danych na podzbiory - uczący i testowy, wraz ze związanymi z nimi klasami. Przyjęto podział w stosunku siedem do trzech. Działanie algorytmu badane było niezależnie dla każdego pliku wejściowego.
 
 \section{Dane wejściowe}
 Na etapie testowania działania proponowanych algorytmów wykorzystano dane zgromadzone w ramach biblioteki arytmii pracy serca \textit{MIT-BIH}. Zbiór zawiera czterdzieści osiem zapisów trzydziestominutowych badań \textit{EKG}. Dwadzieścia trzy nagrania stanowią losowo wybrany podzbiór bazy zawierającej zapis kilku tysięcy badań, natomiast pozostałe dwadzieścia pięć nagrań to zbiór dobrany w taki sposób, by zawierał istotne lecz rzadziej występujące klasy arytmii. Dane zawarte w bazie zawierają również precyzyjną klasyfikację kompleksów \textit{QRS} dla każdego nagrania.
