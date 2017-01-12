@@ -2,7 +2,7 @@
 \subsection{Proces projektowania}
 Cechy środowiska Matlab ułatwiają przeprowadzenie procesu prototypowania i wstępnego testowania aplikacji, co jednak nie jest równoznaczne aspektom koniecznym do zaprojektowania możliwie najwydajniejszej i stabilnej aplikacji klasyfikującej sygnał $EKG$. Z tego względu, po zakończeniu procesu prototypowania zaprojektowano program w języku C++, wykorzystujący badane algorytmy. W trakcie pracy wykorzystano bibliotekę $Eigen$, oferującą wydajną implementację operacji arytmetycznych na macierzach. Użyto również biblioteki $IGL$ \cite{libigl-www}, oferującej szereg funkcji dostępnych w środowisku Matlab oraz interfejsu $OpenMP$ \cite{openmp-www}, umożliwiającego tworzenie programów wykorzystujących zalety systemów wieloprocesorowych.
 
-Zaprojektowany program był w pełni kompatybilny z przygotowanymi prototypami algorytmów, wyniki klasyfikacji oraz cechy nie odbiegały od danych uzyskanych w środowisku Matlab. Dzięki zrównolegleniu sekcji odpowiedzialnych za klasyfikację wektorów testowych osiągnięto kilkukrotnie większą wydajność względem prototypu. Wyniki zebrano w tabeli \ref{matlab-vs-cpp-time}.
+Zaprojektowany program był w pełni kompatybilny z przygotowanymi prototypami algorytmów, wyniki klasyfikacji oraz cechy nie odbiegały od danych uzyskanych w środowisku Matlab. Dzięki zrównolegleniu sekcji odpowiedzialnych za klasyfikację wektorów testowych osiągnięto kilkukrotnie większą wydajność względem prototypu. Wyniki zebrano w tabeli \ref{tab:matlab-vs-cpp-time}.
 
 \begin{table}[H]
 	\centering
