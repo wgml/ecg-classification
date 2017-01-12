@@ -150,11 +150,11 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 		\hline
 100 &1 &1 &0.85714 &1\\                  
 \hline                                   
-101 &NaN &1 &NaN &0.9951\\               
+101 &- &1 &- &0.9951\\               
 \hline                                   
-102 &0.99451 &NaN &1 &NaN\\              
+102 &0.99451 &- &1 &-\\              
 \hline                                   
-103 &NaN &1 &NaN &1\\                    
+103 &- &1 &- &1\\                    
 \hline                                   
 104 &0.9625 &0.9375 &0.9625 &0.9375\\    
 \hline                                   
@@ -164,31 +164,31 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 \hline                                   
 108 &0 &1 &0 &1\\                        
 \hline                                   
-109 &1 &NaN &1 &NaN\\                    
+109 &1 &- &1 &-\\                    
 \hline                                   
-111 &1 &NaN &1 &NaN\\                    
+111 &1 &- &1 &-\\                    
 \hline                                   
-112 &NaN &1 &NaN &1\\                    
+112 &- &1 &- &1\\                    
 \hline                                   
 113 &0 &1 &1 &0.98684\\                  
 \hline                                   
-118 &1 &NaN &1 &NaN\\                    
+118 &1 &- &1 &-\\                    
 \hline                                   
 119 &0.86667 &1 &0.86667 &1\\            
 \hline                                   
-121 &NaN &1 &NaN &1\\                    
+121 &- &1 &- &1\\                    
 \hline                                   
-122 &NaN &1 &NaN &1\\                    
+122 &- &1 &- &1\\                    
 \hline                                   
-124 &1 &NaN &1 &NaN\\                    
+124 &1 &- &1 &-\\                    
 \hline                                   
 200 &0.5 &1 &1 &0.97059\\                
 \hline                                   
 201 &0 &1 &0.071429 &1\\                 
 \hline                                   
-202 &NaN &0.99371 &NaN &0.93082\\        
+202 &- &0.99371 &- &0.93082\\        
 \hline                                   
-203 &NaN &1 &NaN &1\\                    
+203 &- &1 &- &1\\                    
 \hline                                   
 205 &0 &1 &0 &1\\                        
 \hline                                   
@@ -202,7 +202,7 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 \hline                                   
 213 &0.77419 &0.98085 &0.80645 &0.94256\\
 \hline                                   
-214 &1 &NaN &1 &NaN\\                    
+214 &1 &- &1 &-\\                    
 \hline                                   
 215 &1 &1 &1 &1\\                        
 \hline                                   
@@ -214,7 +214,7 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 \hline                                   
 222 &0.7 &0.90598 &0.86667 &0.81766\\    
 \hline                                   
-223 &0.90625 &NaN &0.90625 &NaN\\        
+223 &0.90625 &- &0.90625 &-\\        
 \hline                                   
 228 &0.95 &1 &0.95 &0.9924\\             
 \hline                                   
@@ -222,7 +222,7 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 \hline                                   
 233 &0.85714 &1 &0.85714 &0.99467\\      
 \hline                                   
-234 &NaN &1 &NaN &1\\                    
+234 &- &1 &- &1\\                    
 \hline                                   
 	\end{tabular}
 	\caption{Czułość i swoistość algorytmu kNN i eNN.}
@@ -253,7 +253,7 @@ W tabeli \ref{tab:matlab-plik100} został przedstawiony rozkład klas w pliku 10
 	\label{tab:matlab-plik100}
 \end{table}
 
-[TODO]
+W przypadku pliku 204 algorytm eNN zaklasyfikował 6 próbek do klasy 3 pomimo iż takie w zbiorze testowym nie występowały. W przypadku algorytmu eNN wystąpienie stosunkowo dużej ilości klasyfikacji typu \textit{false positive} może zachodzić dla klas o małej liczebności w zbiorze uczącym co nastąpiło w tym przypadku.
 
 \begin{table}[H]
 	\centering
