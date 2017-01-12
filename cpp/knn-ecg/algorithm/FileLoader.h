@@ -94,7 +94,7 @@ void normalize(NNAlgorithm::DataType &first, NNAlgorithm::DataType &second) {
   }
 }
 
-void do_split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+void do_split(NNAlgorithm::DataType &data, NNAlgorithm::LabelType &label,
               long samples1, long samples2,
               NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
               NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
@@ -112,7 +112,7 @@ void do_split(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &l
   label_out2 << label.block(samples1, 0, samples2, 1);
 }
 
-void split_with_ratio(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+void split_with_ratio(NNAlgorithm::DataType &data, NNAlgorithm::LabelType &label,
                       double split_ratio,
                       NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
                       NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {
@@ -124,7 +124,7 @@ void split_with_ratio(const NNAlgorithm::DataType &data, const NNAlgorithm::Labe
   do_split(data, label, samples1, samples2, data_out1, data_out2, label_out1, label_out2);
 }
 
-void split_with_value(const NNAlgorithm::DataType &data, const NNAlgorithm::LabelType &label,
+void split_with_value(NNAlgorithm::DataType &data, NNAlgorithm::LabelType &label,
                       long train_samples,
                       NNAlgorithm::DataType &data_out1, NNAlgorithm::DataType &data_out2,
                       NNAlgorithm::LabelType &label_out1, NNAlgorithm::LabelType &label_out2) {

@@ -7,7 +7,7 @@ void KNN::train(const KNN::DataType &train_data, const KNN::LabelType &train_lab
   this->train_labels = train_labels;
 }
 
-void KNN::classify(const KNN::DataType &test_data, KNN::LabelType &result) const {
+void KNN::classify(KNN::DataType &test_data, KNN::LabelType &result) const {
   long test_amount = test_data.rows();
   if (test_amount == 0)
     return;

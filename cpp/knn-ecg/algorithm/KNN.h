@@ -10,7 +10,7 @@ struct KNN : public NNAlgorithm {
 
   virtual void train(const DataType &train_data, const LabelType &train_labels) override;
 
-  virtual void classify(const DataType &test_data, LabelType &result) const override;
+  virtual void classify(DataType &test_data, LabelType &result) const override;
 
   virtual ~KNN() = default;
 
