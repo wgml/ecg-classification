@@ -1,2 +1,38 @@
-\section{Aplikacja}
-coś?
+\section{Struktura projektu}
+Repozytorium projektu podzielone jest na szereg katalogów.
+\begin{itemize}  
+	\item cpp - kod źródłowy programu w języku C++ 
+	\item data - zbiór danych testowych wraz z plikami definiującymi klasy
+	\item doc - wykorzystane artykuły naukowe
+	\item matlab - kod źródłowy prototypu w języku Matlab
+	\item raport - raport podsumowujący projekt
+	\item util - wykorzystane narzędzia pomocnicze
+\end{itemize}
+
+
+Zalecana metoda kompilacji wymaga wykonania następujących poleceń:
+\begin{lstlisting}[language=bash,caption=Kompilacja programu]
+git clone --recursive https://github.com/wgml/ecg-classification.git
+cd ecg-classification
+mkdir build
+cd build
+cmake ../cpp/knn-ecg
+make
+\end{lstlisting}
+
+W trakcie klonowania zawartości repozytorium pobierane są również zależności projektu. Kompilacja wymaga kompilatora wspierającego standard $c++11$, a cały proces testowany był przy użyciu zbioru kompilatorów $GCC$ w wersji $6.2.1$. Aplikacja wykorzystuje interfejs $OpenMP$. W przypadku niedostępności tej biblioteki w systemie, konieczne jest zmodyfikowanie pliku $cpp/knn-ecg/CMakeLists.txt$ i usunięcie argumentu $-fopenmp$ z listy flag kompilatora.
+
+W wyniku kompilacji powstają dwa pliki źródłowe - $knn$ oraz $enn$.
+Uruchomienie klasyfikatora wymaga przekazania ścieżek do katalogów testowych przez argumenty wiersza poleceń. Poniżej przedstawiono przykładowe wywołania.
+
+\begin{lstlisting}[language=bash,caption=Uruchamianie aplikacji]
+./knn ../data/data_unique_labels/101 ../data/data_unique_labels/102
+./enn ../data/data_unique_labels/*
+\end{lstlisting}
+
+Domyślnie aplikacja wykorzystuje wspólne pliki danych dla zbioru testowego i uczącego i dzieli jest w stosunku 7 do 3. W celu wykorzystania dwóch plików wejściowych koniecznie jest przekazanie argumentu $--multi-data-file$.
+Wynik działania programu przedstawiany jest w formie tekstowej w konsoli terminala.
+
+Poprawność działania prototypowej wersji potwierdzony przy użyciu programu $Matlab$ w wersji $R2016b$. Udostepniono plik źródłowy $knn_vs_enn.m$ odpowiedzialny za przeprowadzenie procesu uczenie i testowania na zbiorze plików oraz wyznaczenie wskaźników opisujących klasyfikatory.
+
+Pomocnicze skrypty napisane zostały przy użyciu języków $Python 3$ oraz $Bash 4$
