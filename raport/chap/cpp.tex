@@ -115,9 +115,188 @@ Na rysunkach \ref{fig:knn_compexity} i \ref{fig:enn_complexity} przedstawiono da
 
 W trakcie eksperymentu manipulowano licznością zbioru testowego oraz uczącego. Badano działanie aplikacji dla zmiennej wielkości jednego zbioru przy liczności drugiego równej $9000$ oraz dla zbiorów o takiej samej wielkości w zakresie od $1000$ do $9000$ wektorów. W przypadku obu algorytmów zaobserwować można liniowy wzrost czasu wykonania przy manipulacji rozmiarem jednego zbioru oraz kwadratowy wzrost w przypadku zmiany wielkości obu zbiorów jednocześnie.
 
+\subsection{Wskaźniki jakości klasyfikatora}
+
+Dla uzyskanych wyników klasyfikacji zostały wyznaczone wskaźniki jakości takie jak czułość i swoistość. Czułość określa w tym przypadku zdolność algorytmu do wykrycia choroby, czyli dla czułości równej 1, algorytm potrafi w każdym przypadku poprawnie wykryć chorobę. Swoistość określa zdolność algorytmu do poprawnej klasyfikacji osób zdrowych. Wskaźniki opisują jedynie zdolność klasyfikacji zdrowy/chory, nie bada jednak klasyfikacji pomiędzy poszczególne choroby. 
+\newline
+Wskaźniki obliczane są według następujących wzorów:
+
+\begin{equation}
+czulosc = \frac{Tp}{Tp+Fn}
+\end{equation}
+
+\begin{equation}
+swoistosc = \frac{Tn}{Tn+Fp}
+\end{equation}
+\newline
+TP – True Positive – liczba obserwacji poprawnie zaklasyfikowanych do klasy pozytywnej
+\newline
+TN – True Negative – liczba obserwacji poprawnie zaklasyfikowanych do klasy negatywnej
+\newline
+FP – False Positive – liczba obserwacji zaklasyfikowanych do klasy pozytywnej podczas, gdy w rzeczywistości pochodzą z klasy negatywnej
+\newline
+FN – False Negative – liczba obserwacji zaklasyfikowanych do klasy negatywnej podczas, gdy w rzeczywistości pochodzą z klasy pozytywnej
+
+
+Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu na zerową wartość sumy znajdującej się w mianowniku. Jest to spowodowane m.in występowaniem tylko jednej klasy w niektórych plikach. W takim przypadku wszystkie próbki klasyfikowane są jako występujaca klasa, a skuteczność działania wynosi 100\%.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|}
+		\hline
+		& \multicolumn{2}{c|}{$kNN$} & \multicolumn{2}{c|}{$eNN$} \\
+		\hline
+		$Plik$ & Czułość & Swoistość & Czułość & Swoistość \\
+		\hline
+100 &1 &1 &0.85714 &1\\                  
+\hline                                   
+101 &NaN &1 &NaN &0.9951\\               
+\hline                                   
+102 &0.99451 &NaN &1 &NaN\\              
+\hline                                   
+103 &NaN &1 &NaN &1\\                    
+\hline                                   
+104 &0.9625 &0.9375 &0.9625 &0.9375\\    
+\hline                                   
+105 &0.5 &1 &0.5 &0.99795\\              
+\hline                                   
+106 &0.96721 &1 &0.96721 &1\\            
+\hline                                   
+108 &0 &1 &0 &1\\                        
+\hline                                   
+109 &1 &NaN &1 &NaN\\                    
+\hline                                   
+111 &1 &NaN &1 &NaN\\                    
+\hline                                   
+112 &NaN &1 &NaN &1\\                    
+\hline                                   
+113 &0 &1 &1 &0.98684\\                  
+\hline                                   
+118 &1 &NaN &1 &NaN\\                    
+\hline                                   
+119 &0.86667 &1 &0.86667 &1\\            
+\hline                                   
+121 &NaN &1 &NaN &1\\                    
+\hline                                   
+122 &NaN &1 &NaN &1\\                    
+\hline                                   
+124 &1 &NaN &1 &NaN\\                    
+\hline                                   
+200 &0.5 &1 &1 &0.97059\\                
+\hline                                   
+201 &0 &1 &0.071429 &1\\                 
+\hline                                   
+202 &NaN &0.99371 &NaN &0.93082\\        
+\hline                                   
+203 &NaN &1 &NaN &1\\                    
+\hline                                   
+205 &0 &1 &0 &1\\                        
+\hline                                   
+208 &0.85 &0.97166 &0.85 &0.92713\\      
+\hline                                   
+209 &0.44444 &0.98165 &0.88889 &0.9633\\ 
+\hline                                   
+210 &0 &1 &0 &0.99819\\                  
+\hline                                   
+212 &1 &1 &1 &1\\                        
+\hline                                   
+213 &0.77419 &0.98085 &0.80645 &0.94256\\
+\hline                                   
+214 &1 &NaN &1 &NaN\\                    
+\hline                                   
+215 &1 &1 &1 &1\\                        
+\hline                                   
+217 &0.80952 &1 &0.80952 &1\\            
+\hline                                   
+219 &0 &1 &0 &0.978\\                    
+\hline                                   
+221 &1 &0.99187 &1 &0.99187\\            
+\hline                                   
+222 &0.7 &0.90598 &0.86667 &0.81766\\    
+\hline                                   
+223 &0.90625 &NaN &0.90625 &NaN\\        
+\hline                                   
+228 &0.95 &1 &0.95 &0.9924\\             
+\hline                                   
+231 &0.99698 &0.98 &0.99698 &1\\         
+\hline                                   
+233 &0.85714 &1 &0.85714 &0.99467\\      
+\hline                                   
+234 &NaN &1 &NaN &1\\                    
+\hline                                   
+	\end{tabular}
+	\caption{Czułość i swoistość algorytmu kNN i eNN.}
+	\label{tab:matlab-wskazniki}
+\end{table}
 \subsection{Omówienie możliwości wykorzystania zrównoważonego zbioru uczącego?}
 
-\subsection{Dokładne wyniki dla kilku fajnych plików}
+\subsection{Rozkład danych w zbiorze uczącym i testowym.}
+W rozdziale \ref{chap:prototype} została przedstawiona skuteczność działania algorytmu dla różnych plików. W tym rozdziale zostaną omówione rozkłady klas w niektórych plikach, oraz ich wpływ na działanie algorytmu.
+
+
+W tabeli \ref{tab:matlab-plik100} został przedstawiony rozkład klas w pliku 100. W pliku występują dwie klasy 1 i 3. Pomimo bardzo dużej różnicy pomiędzy licznością obu klas podczas klasyfikacji za pomocą metody eNN tylko jedna próbka została źle sklasyfikowana, natomiast algorytm kNN był bezbłędny. W tym przypadku 10 próbek z klasy 3 wystarcza do przeprowadzenia poprawnego procesu uczenia algorytmów.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|}
+		\hline
+		
+		Klasa & Zbiór uczący & Zbiór testowy & Klasyfikacja kNN & Klasyfikacja eNN \\
+		\hline
+		1 & 737 & 314 & 314 & 315 \\
+		\hline 
+		3 & 10 & 7 & 7 & 6 \\
+		\hline
+                          
+	\end{tabular}
+	\caption{Szczegółowy rozkład klas dla pliku 100}
+	\label{tab:matlab-plik100}
+\end{table}
+
+[TODO]
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|}
+		\hline
+		
+		Klasa & Zbiór uczący & Zbiór testowy & Klasyfikacja kNN & Klasyfikacja eNN \\
+		\hline
+		1 & 61 & 16 & 18 & 18 \\
+		\hline 
+		3 & 3 & 0 & 0 & 6 \\
+		\hline
+		4 & 159 & 80 & 78 & 72 \\
+		\hline
+		
+	\end{tabular}
+	\caption{Szczegółowy rozkład klas dla pliku 104}
+	\label{tab:matlab-plik104}
+\end{table}
+
+
+W tabeli \ref{tab:matlab-skutecznosc} opisującej skuteczność działania algorytmów zdecydowanie wyróżniają się wyniki uzyskane dla pliku 201. W tabeli \ref{tab:matlab-plik201} został przedstawiony rozkład klas w tym pliku. Niska skuteczność działania algorytmu wynika ze źle przygotowanego zbioru uczącego, w którym nie znalazły się próbki z klas 3 i 7 co uniemożliwiło ich poprawną klasyfikację. Dodatkową przeszkodą była niska liczebność zbioru co wiąże się z małą ilością próbek poszczególnych klas.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|}
+		\hline
+		
+		Klasa & Zbiór uczący & Zbiór testowy & Klasyfikacja kNN & Klasyfikacja eNN \\
+		\hline
+		1 & 66 & 15 & 29 & 28 \\
+		\hline 
+		3 & 0 & 8 & 0 & 0 \\
+		\hline
+		4 & 1 & 0 & 0 & 1 \\
+		\hline
+		7 & 0 & 6 & 0 & 0 \\
+		\hline
+		
+	\end{tabular}
+	\caption{Szczegółowy rozkład klas dla pliku 201}
+	\label{tab:matlab-plik201}
+\end{table}
 
 
 
