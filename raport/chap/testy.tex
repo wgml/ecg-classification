@@ -11,7 +11,7 @@ Rozkład danych wejściowych na klasy przedstawiono na rysunku \ref{fig:klasy-da
 	\caption{Rozkład danych wejściowych na klasy.}
 	\label{fig:klasy-danych}
 \end{figure}
-Dane zawarte w zbiorze pomiarów nie składają się na klasy o równej liczności. Najliczniejsza klasa zawiera wektory opisujące normalne zespoły QRS. Kategoria ta składa się na $82.67\%$ wszystkich danych. Część klas opisujących nieprawidłowości reprezentowana jest przez zaledwie kilka lubi kilkadziesiąt wektorów cech, co uniemożliwia zaprojektowanie poprawnych klasyfikatorów.
+Dane zawarte w zbiorze pomiarów nie składają się na klasy o równej liczności. Najliczniejsza klasa zawiera wektory opisujące normalne zespoły QRS. Kategoria ta składa się na $82.67\%$ wszystkich danych. Część klas opisujących nieprawidłowości reprezentowana jest przez zaledwie kilka lubi kilkadziesiąt wektorów cech, co znacznie utrudnia zaprojektowanie poprawnych klasyfikatorów.
 
 Dane wejściowe poddano normalizacji, która opisana jest równaniem \ref{eq:normalize-data}.
 
@@ -21,7 +21,7 @@ x_j = \frac{x_j - \mu(x_j)}{\sigma(x_j)}, j=1,2...N
 \end{equation}
 gdzie $x_j$ opisuje $j$-tą kolumnę macierzy danych.
 
-Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tabeli \ref{tab:matlab-skutecznosc}. Przyjęto $K=3$. Zmierzono również czas wykonania algorytmów dla wszystkich plików.
+Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tabeli \ref{tab:matlab-skutecznosc}. Przyjęto $K=3$. Zmierzono również czas wykonania algorytmów dla wszystkich plików. Eksperyment przeprowadzony został przy użyciu oprogramowania $Matlab$.
 
 \begin{table}[H]
 	\centering
@@ -114,4 +114,4 @@ Skuteczność badano niezależnie dla każdego pliku. Wyniki przedstawiono w tab
 	
 \end{table}
 
-Wyniki otrzymane za pomocą algorytmów $kNN$ oraz $eNN$ są zbliżone do siebie z lekką przewagą na korzy algorytmu $kNN$. Duży wpływ na działanie algorytmów miał podział próbek w zbiorze uczącym na poszczególne klasy. Znaczna przewaga danych należących do klasy 1 miała negatywny wpływ na skuteczność klasyfikacji, co jest uzasadnione w przypadku korzystania z metod statystycznych. W optymalnie przygotowanym zbiorze uczącym próbki powinny być równomiernie rozłożone na wszystkie klasy. Czas wykonania algorytmu $eNN$ jest zwykle około trzykrotnie dłuższy niż w przypadku algorytmu $kNN$. Bardzo ważne okazało się zastosowanie obliczeń wektorowych, które są bardzo dobrze zoptymalizowane w środowisku Matlab i cechują się znacznie większą wydajnością niż podejście iteracyjne. W przypadku algorytmu $eNN$ różnice w czasie obliczeń przekraczały trzy rzędy wielkości.
+Wyniki otrzymane za pomocą algorytmów $kNN$ oraz $eNN$ są zbliżone do siebie z lekką przewagą na korzyść algorytmu $kNN$. Duży wpływ na działanie algorytmów miał podział próbek w zbiorze uczącym na poszczególne klasy. Znaczna przewaga danych należących do klasy $1$ miała negatywny wpływ na skuteczność klasyfikacji, co jest uzasadnione w przypadku korzystania z metod statystycznych. W optymalnie przygotowanym zbiorze uczącym próbki powinny być równomiernie rozłożone na wszystkie klasy. Czas wykonania algorytmu $eNN$ jest zwykle około trzykrotnie dłuższy niż w przypadku algorytmu $kNN$. Bardzo ważne okazało się zastosowanie obliczeń wektorowych, które są bardzo dobrze zoptymalizowane w środowisku Matlab i cechują się znacznie większą wydajnością niż podejście iteracyjne. W przypadku algorytmu $eNN$ różnice w czasie obliczeń przekraczały trzy rzędy wielkości.

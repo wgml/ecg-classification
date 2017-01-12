@@ -20,7 +20,7 @@ cmake ../cpp/knn-ecg
 make
 \end{lstlisting}
 
-W trakcie klonowania zawartości repozytorium pobierane są również zależności projektu. Kompilacja wymaga kompilatora wspierającego standard $c++11$, a cały proces testowany był przy użyciu zbioru kompilatorów $GCC$ w wersji $6.2.1$. Aplikacja wykorzystuje interfejs $OpenMP$. W przypadku niedostępności tej biblioteki w systemie, konieczne jest zmodyfikowanie pliku $cpp/knn-ecg/CMakeLists.txt$ i usunięcie argumentu $-fopenmp$ z listy flag kompilatora.
+W trakcie klonowania zawartości repozytorium pobierane są również zależności projektu. Kompilacja wymaga kompilatora wspierającego standard \textit{c++11}, a cały proces testowany był przy użyciu zbioru kompilatorów $GCC$ w wersji $6.2.1$. Aplikacja wykorzystuje interfejs $OpenMP$. W przypadku niedostępności tej biblioteki w systemie, konieczne jest zmodyfikowanie pliku $cpp/knn-ecg/CMakeLists.txt$ i usunięcie argumentu \textit{-fopenmp} z listy flag kompilatora.
 
 W wyniku kompilacji powstają dwa pliki źródłowe - $knn$ oraz $enn$.
 Uruchomienie klasyfikatora wymaga przekazania ścieżek do katalogów testowych przez argumenty wiersza poleceń. Poniżej przedstawiono przykładowe wywołania.
@@ -30,9 +30,9 @@ Uruchomienie klasyfikatora wymaga przekazania ścieżek do katalogów testowych 
 ./enn ../data/data_unique_labels/*
 \end{lstlisting}
 
-Domyślnie aplikacja wykorzystuje wspólne pliki danych dla zbioru testowego i uczącego i dzieli jest w stosunku 7 do 3. W celu wykorzystania dwóch plików wejściowych koniecznie jest przekazanie argumentu $--multi-data-file$.
+Domyślnie aplikacja wykorzystuje wspólne pliki danych dla zbioru testowego i uczącego i dzieli jest w stosunku 7 do 3. W celu wykorzystania dwóch plików wejściowych koniecznie jest przekazanie argumentu \textit{\--\--multi-data-file}.
 Wynik działania programu przedstawiany jest w formie tekstowej w konsoli terminala.
 
-Poprawność działania prototypowej wersji potwierdzony przy użyciu programu $Matlab$ w wersji $R2016b$. Udostepniono plik źródłowy $knn_vs_enn.m$ odpowiedzialny za przeprowadzenie procesu uczenie i testowania na zbiorze plików oraz wyznaczenie wskaźników opisujących klasyfikatory.
+Poprawność działania prototypowej wersji potwierdzony przy użyciu programu $Matlab$ w wersji $R2016b$. Udostępniono plik źródłowy $knn\_vs\_enn.m$ odpowiedzialny za przeprowadzenie procesu uczenie i testowania na zbiorze plików oraz wyznaczenie wskaźników opisujących klasyfikatory.
 
-Pomocnicze skrypty napisane zostały przy użyciu języków $Python 3$ oraz $Bash 4$.
+Pomocnicze skrypty napisane zostały przy użyciu języków \textit{Python 3} oraz \textit{Bash 4}.

@@ -1,8 +1,8 @@
 \section{Implementacja w języku C++}
 \subsection{Proces projektowania}
-Cechy środowiska Matlab ułatwiają przeprowadzenie procesu prototypowania i wstępnego testowania aplikacji, co jednak nie jest równoznaczne aspektom koniecznym do zaprojektowania możliwie najwydajniejszej i stabilnej aplikacji klasyfikującej sygnał $EKG$. Z tego względu, po zakończeniu procesu prototypowania zaprojektowano program w języku C++, wykorzystujący badane algorytmy. W trakcie pracy wykorzystano bibliotekę $Eigen$, oferującą wydajną implementację operacji arytmetycznych na macierzach. Użyto również biblioteki $IGL$ \cite{libigl-www}, oferującej szereg funkcji dostępnych w środowisku Matlab oraz interfejsu $OpenMP$ \cite{openmp-www}, umożliwiającego tworzenie programów wykorzystujących zalety systemów wieloprocesorowych.
+Cechy środowiska Matlab ułatwiają przeprowadzenie procesu prototypowania i wstępnego testowania algorytmu, co jednak nie jest równoznaczne aspektom koniecznym do zaprojektowania możliwie najwydajniejszej i stabilnej aplikacji klasyfikującej sygnał $EKG$. Z tego względu, po zakończeniu procesu prototypowania zaprojektowano program w języku C++, wykorzystujący badane algorytmy. W trakcie pracy użyto biblioteki $Eigen$, oferującej wydajną implementację operacji arytmetycznych na macierzach. Wykorzystano również bibliotekę $IGL$ \cite{libigl-www}, oferującą szereg funkcji dostępnych w środowisku Matlab oraz interfejs $OpenMP$ \cite{openmp-www}, umożliwiający tworzenie programów wykorzystujących zalety systemów wieloprocesorowych.
 
-Zaprojektowany program był w pełni kompatybilny z przygotowanymi prototypami algorytmów, wyniki klasyfikacji oraz cechy nie odbiegały od danych uzyskanych w środowisku Matlab. Dzięki zrównolegleniu sekcji odpowiedzialnych za klasyfikację wektorów testowych osiągnięto kilkukrotnie większą wydajność względem prototypu. Wyniki zebrano w tabeli \ref{tab:matlab-vs-cpp-time}.
+Zaprojektowany program był w pełni kompatybilny z przygotowanymi prototypami algorytmów, wyniki klasyfikacji oraz badane wskaźniki nie odbiegały od danych uzyskanych w środowisku Matlab. Dzięki zrównolegleniu sekcji odpowiedzialnych za klasyfikację wektorów testowych osiągnięto kilkukrotnie większą wydajność względem prototypu. Wyniki zebrano w tabeli \ref{tab:matlab-vs-cpp-time}.
 
 \begin{table}[H]
 	\centering
@@ -93,7 +93,7 @@ $234$ & 0.1096 & 0.0310 & 0.3523 & 0.0702 \\
 Algorytm $KNN$ zaprojektowany w języku C++ wykonywał się średnio $2.45$ razy szybciej od prototypu w Matlabie, natomiast algorytm $ENN$ - średnio $4.38$ razy szybciej. $ENN$ wymaga ponadto średnio o $76\%$ więcej czasu od $KNN$ na przeprowadzenie obliczeń dla tego samego zbioru danych.
 
 \subsection{Wpływ rozmiaru badanych zbiorów na wydajność aplikacji}
-Algorytm $KNN$ wymaga analizy pełnego zbioru uczącego dla każdego badanego wektora. Czas wykonania aplikacji zależy więc w sposób liniowy zarówno od rozmiaru obu zbiorów. W przypadku analizy danych poprzez podział zbioru na zbiór uczący i testowy ze stałym współczynnikiem, czas potrzebny na przeprowadzenie obliczeń zależy kwadratowo od wielkości zbioru wejściowego.
+Algorytm $KNN$ wymaga analizy pełnego zbioru uczącego dla każdego badanego wektora. Czas wykonania aplikacji zależy więc w sposób liniowy od rozmiaru obu zbiorów. W przypadku analizy danych poprzez podział zbioru na zbiór uczący i testowy ze stałym współczynnikiem, czas potrzebny na przeprowadzenie obliczeń zależy więc kwadratowo od wielkości zbioru wejściowego.
 
 Proces uczenia w przypadku algorytmu $ENN$ wymaga przeprowadzenia obliczeń zależnych liniowo od wielkości zbioru uczącego oraz liczby unikalnych klas. Czas wymagany do przeprowadzenia klasyfikacji zależy liniowo od liczności zbioru testowego oraz liczby wektorów uczących.
 
@@ -109,13 +109,11 @@ Na rysunkach \ref{fig:knn_compexity} i \ref{fig:enn_complexity} przedstawiono da
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{img/enn_complexity}
-	\caption{Czasowa złożoność obliczeniowa algorytmu $KNN$.}
+	\caption{Czasowa złożoność obliczeniowa algorytmu $ENN$.}
 	\label{fig:enn_complexity}
 \end{figure}
 
 W trakcie eksperymentu manipulowano licznością zbioru testowego oraz uczącego. Badano działanie aplikacji dla zmiennej wielkości jednego zbioru przy stałym rozmiarze drugiego równym $9000$ oraz dla zbiorów o takiej samej wielkości w zakresie od $1000$ do $9000$ wektorów. W przypadku obu algorytmów zaobserwować można liniowy wzrost czasu wykonania przy manipulacji rozmiarem jednego zbioru oraz kwadratowy wzrost w przypadku zmiany wielkości obu zbiorów jednocześnie.
-
-Badano możliwość redukcji zbioru uczącego w taki sposób, aby zawierał on taką samą liczbę wektorów dla każdej klasy. Proponowane rozwiązanie pozwala na ograniczenie czasu potrzebnego na przeprowadzenie procesu klasyfikacji, wymaga jednak przygotowania reprezentatywnego zbioru uczącego. Badano możliwość generowania zredukowanego zbioru uczącego przy starcie aplikacji lecz zaobserwowano znaczny spadek skuteczności algorytmów klasyfikacji. 
 
 Zbadano również wpływ wielkości zbioru uczącego na podstawie analizy danych zawierających 32812 wektorów testowych. Wyniki zebrano w tabeli \ref{tab:rozmiar-zbioru-uczacego}.
 
@@ -148,6 +146,8 @@ Zbadano również wpływ wielkości zbioru uczącego na podstawie analizy danych
 	\label{tab:rozmiar-zbioru-uczacego}	
 \end{table}
 W kolejnych krokach badano działanie obu metod przy użyciu zbioru uczącego zwierającego zdefiniowaną w pierwszej kolumnie tabeli część wszystkich danych. Pozostałe wektory trafiały do zbioru testowego. Zaobserwowano wzrost skuteczności obu algorytmów wraz ze wzrostem wielkości zbioru uczącego do wartości $0.7$. W obu przypadkach nie zauważono znaczących zmian skuteczności dla wartości z zakresu $0.7-0.9$. Na podstawie omawianych danych można stwierdzić, że czas wykonania algorytmu $ENN$ zależy w większym stopniu od rozmiaru zbioru uczącego niż testowego. Wynika to z nietrywialnego procesu uczenia klasyfikatora. W przypadku algorytmu $KNN$ zaobserwowano mniejsze wartości czasu wykonania w końcowej fazie eksperymentu.
+Uzyskane wyniki uzasadniają dobór współczynnika wielkości zbioru uczącego równego $0.7$.
+
 \subsection{Wskaźniki jakości klasyfikatora}
 
 Dla uzyskanych wyników klasyfikacji zostały wyznaczone wskaźniki jakości takie jak czułość i swoistość. Czułość określa w tym przypadku zdolność algorytmu do wykrycia choroby, czyli dla czułości równej 1, algorytm potrafi w każdym przypadku poprawnie wykryć chorobę. Swoistość określa zdolność algorytmu do poprawnej klasyfikacji osób zdrowych. Wskaźniki opisują jedynie zdolność klasyfikacji zdrowy/chory, nie bada jednak klasyfikacji pomiędzy poszczególne choroby. 
@@ -162,16 +162,16 @@ czulosc = \frac{Tp}{Tp+Fn}
 swoistosc = \frac{Tn}{Tn+Fp}
 \end{equation}
 \newline
-TP – True Positive – liczba obserwacji poprawnie zaklasyfikowanych do klasy pozytywnej
+T\textsubscript{P} – \textit{True Positive} – liczba obserwacji poprawnie zaklasyfikowanych do klasy pozytywnej.
 \newline
-TN – True Negative – liczba obserwacji poprawnie zaklasyfikowanych do klasy negatywnej
+T\textsubscript{N} – \textit{True Negative} – liczba obserwacji poprawnie zaklasyfikowanych do klasy negatywnej.
 \newline
-FP – False Positive – liczba obserwacji zaklasyfikowanych do klasy pozytywnej podczas, gdy w rzeczywistości pochodzą z klasy negatywnej
+F\textsubscript{P} – \textit{False Positive} – liczba obserwacji zaklasyfikowanych do klasy pozytywnej podczas gdy w rzeczywistości pochodzą z klasy negatywnej.
 \newline
-FN – False Negative – liczba obserwacji zaklasyfikowanych do klasy negatywnej podczas, gdy w rzeczywistości pochodzą z klasy pozytywnej
+F\textsubscript{N} – \textit{False Negative} – liczba obserwacji zaklasyfikowanych do klasy negatywnej podczas gdy w rzeczywistości pochodzą z klasy pozytywnej.
 
 
-Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu na zerową wartość sumy znajdującej się w mianowniku. Jest to spowodowane m.in występowaniem tylko jednej klasy w niektórych plikach. W takim przypadku wszystkie próbki klasyfikowane są jako występujaca klasa, a skuteczność działania wynosi 100\%.
+Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu na zerową wartość sumy znajdującej się w mianowniku. Jest to spowodowane m.in występowaniem tylko jednej klasy w niektórych plikach. W takim przypadku wszystkie próbki klasyfikowane są jako występująca klasa, a skuteczność działania wynosi 100\%.
 
 \begin{table}[H]
 	\centering
@@ -263,7 +263,7 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 \end{table}
 
 \subsection{Rozkład danych w zbiorze uczącym i testowym.}
-W rozdziale \ref{chap:prototype} została przedstawiona skuteczność działania algorytmu dla różnych plików. W tym rozdziale zostaną omówione rozkłady klas w niektórych plikach, oraz ich wpływ na działanie algorytmu.
+W rozdziale \ref{chap:prototype} została przedstawiona skuteczność działania algorytmu dla różnych plików. W poniższej sekcji zostaną omówione rozkłady klas w niektórych plikach, oraz ich wpływ na działanie algorytmu.
 
 
 W tabeli \ref{tab:matlab-plik100} został przedstawiony rozkład klas w pliku 100. W pliku występują dwie klasy 1 i 3. Pomimo bardzo dużej różnicy pomiędzy licznością obu klas podczas klasyfikacji za pomocą metody eNN tylko jedna próbka została źle sklasyfikowana, natomiast algorytm kNN był bezbłędny. W tym przypadku 10 próbek z klasy 3 wystarcza do przeprowadzenia poprawnego procesu uczenia algorytmów.
@@ -307,7 +307,7 @@ W przypadku pliku 204 algorytm eNN zaklasyfikował 6 próbek do klasy 3 pomimo i
 \end{table}
 
 
-W tabeli \ref{tab:matlab-skutecznosc} opisującej skuteczność działania algorytmów zdecydowanie wyróżniają się wyniki uzyskane dla pliku 201. W tabeli \ref{tab:matlab-plik201} został przedstawiony rozkład klas w tym pliku. Niska skuteczność działania algorytmu wynika ze źle przygotowanego zbioru uczącego, w którym nie znalazły się próbki z klas 3 i 7 co uniemożliwiło ich poprawną klasyfikację. Dodatkową przeszkodą była niska liczebność zbioru co wiąże się z małą ilością próbek poszczególnych klas.
+W tabeli \ref{tab:matlab-skutecznosc} opisującej skuteczność działania algorytmów zdecydowanie wyróżniają się wyniki uzyskane dla pliku 201. W tabeli \ref{tab:matlab-plik201} został przedstawiony rozkład klas w tym pliku. Niska skuteczność działania algorytmu wynika ze źle przygotowanego zbioru uczącego, w którym nie znalazły się próbki z klas 3 i 7, co uniemożliwiło ich poprawną klasyfikację. Dodatkową przeszkodą była niska liczebność zbioru co wiąże się z małą ilością próbek poszczególnych klas.
 
 \begin{table}[H]
 	\centering
@@ -332,7 +332,7 @@ W tabeli \ref{tab:matlab-skutecznosc} opisującej skuteczność działania algor
 
 \subsection{Działanie algorytmów dla zbiorów uczących o jednakowym rozkładzie klas}
 
-Dane na których prowadzone były testy cechują się bardzo dużymi różnicami pomiędzy liczebnością poszczególnych klas. W tym rozdziale został przedstawiony przykład w którym zbiory uczące zawierały jednakową ilość próbek z poszczególnych klas. Porównanie skuteczności działania algorytmów dla obu zbiorów zostało przedstawione w tabeli \ref{tab:matlab-skutecznosc-rowno}. Zbiory uczące konstruowane były w taki sposób, że liczebność każdej klasy znajdującej się w pliku wynosiła 15. Z tego powodu nie dla wszystkich plików możliwe było skonstruowanie takich zbiorów uczących.
+Dane na których prowadzone były testy cechują się bardzo dużymi różnicami pomiędzy liczebnością poszczególnych klas. W tej sekcji omówiono możliwość budowy  zbioru uczącego, w którym poszczególne klasy reprezentowane są przez taką samą liczbę wektorów. Porównanie skuteczności działania algorytmów dla obu zbiorów zostało przedstawione w tabeli \ref{tab:matlab-skutecznosc-rowno}. Zbiory uczące konstruowane były w taki sposób, że liczebność każdej klasy znajdującej się w pliku wynosiła 15. Z tego powodu nie dla wszystkich plików możliwe było skonstruowanie takich zbiorów uczących.
 
 \begin{table}[H]
 	\centering
@@ -358,7 +358,7 @@ Dane na których prowadzone były testy cechują się bardzo dużymi różnicami
 	\label{tab:matlab-skutecznosc-rowno}
 \end{table}
 
-W przypadku dwóch pierwszych plików nastąpiło znaczne pogorszenie skuteczności, natomiast w pozostałych przypadkach wyniki były podobne do tych uzyskanych używając nierównolicznych zbiorów uczących. Jest to spowodowane indywidualnymi właściwościami każdego zbioru. Dodatkowo z powodu ograniczonej ilości dostępnych próbek należących do każdej klasy, w zbiorach uczących zostało umieszczonych jedynie po 15 próbek, co w niektórych przypadkach nie opisuje w pełni całej przestrzeni. 
+W przypadku dwóch pierwszych plików nastąpiło znaczne pogorszenie skuteczności, natomiast w pozostałych przypadkach wyniki były podobne do tych uzyskanych przy użyciu nierównolicznych zbiorów uczących. Jest to spowodowane indywidualnymi właściwościami każdego zbioru. Dodatkowo, z powodu ograniczonej ilości dostępnych próbek należących do każdej klasy, w zbiorach uczących zostało umieszczonych jedynie po 15 próbek, co w niektórych przypadkach nie opisuje w pełni całej przestrzeni. 
 
 
 
