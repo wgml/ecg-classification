@@ -13,7 +13,6 @@ struct NNAlgorithm {
   using DataType = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
   using LabelType = Eigen::Matrix<ClassType, Eigen::Dynamic, 1>;
   using DistanceType = Eigen::Matrix<double, Eigen::Dynamic, 1>;
-  using Distance2Type = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
   using IndexType = Eigen::Matrix<Eigen::Index, Eigen::Dynamic, 1>;
 
   NNAlgorithm(unsigned int K)
@@ -21,7 +20,7 @@ struct NNAlgorithm {
 
   virtual void train(const DataType &train_data, const LabelType &train_labels) = 0;
 
-  virtual void classify(const DataType &test_data, LabelType &result) const = 0;
+  virtual void classify(DataType &test_data, LabelType &result) const = 0;
 
   static double accuracy(const LabelType &expected, const LabelType &actual) {
     assert(expected.rows() == actual.rows());

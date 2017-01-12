@@ -5,28 +5,26 @@
 
 struct ENN : public NNAlgorithm {
 
-	ENN(unsigned int K)
-	: NNAlgorithm(K)
-	{}
+  ENN(unsigned int K)
+      : NNAlgorithm(K) {}
 
-	virtual void train(const DataType &train_data, const LabelType &train_labels) override;
+  virtual void train(const DataType &train_data, const LabelType &train_labels) override;
 
-	virtual void classify(const DataType &test_data, LabelType &result) const override;
+  virtual void classify(DataType &test_data, LabelType &result) const override;
 
-	virtual ~ENN() = default;
+  virtual ~ENN() = default;
 
 private:
-	using NNLabelsType = Eigen::Matrix<ClassType, Eigen::Dynamic, Eigen::Dynamic>;
+  using NNLabelsType = Eigen::Matrix<ClassType, Eigen::Dynamic, Eigen::Dynamic>;
 
-	DataType train_data;
-	LabelType train_labels;
-	LabelType unique_labels;
+  DataType train_data;
+  LabelType train_labels;
+  LabelType unique_labels;
 
-	Eigen::MatrixXd nn_distances;
-	NNLabelsType nn_labels;
-	Eigen::VectorXi n_i;
-	Eigen::VectorXd T;
+  Eigen::MatrixXd nn_distances;
+  NNLabelsType nn_labels;
+  Eigen::VectorXi n_i;
+  Eigen::VectorXd T;
 };
-
 
 #endif /* ALGORITHM_ENN_H_ */

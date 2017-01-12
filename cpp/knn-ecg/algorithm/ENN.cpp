@@ -24,7 +24,7 @@ void ENN::train(const ENN::DataType &train_data, const ENN::LabelType &train_lab
 
   #pragma omp parallel for
   for (int i = 0; i < train_amount; i++) {
-    auto train_sample = train_data.row(i);
+    auto train_sample = this->train_data.row(i);
     DistanceType distances{train_amount}, sorted_distances{train_amount};
     IndexType distance_indexes{train_amount};
     distance(train_data, train_sample, distances);
@@ -55,7 +55,7 @@ void ENN::train(const ENN::DataType &train_data, const ENN::LabelType &train_lab
   }
 }
 
-void ENN::classify(const ENN::DataType &test_data, ENN::LabelType &result) const {
+void ENN::classify(ENN::DataType &test_data, ENN::LabelType &result) const {
   auto test_amount = test_data.rows();
   auto train_amount = train_data.rows();
   const auto uniq_labels_num = unique_labels.rows();

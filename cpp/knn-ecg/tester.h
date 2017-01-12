@@ -15,7 +15,7 @@ using std::chrono::duration_cast;
 
 namespace {
 void do_test(const std::vector<std::string> &directories, std::shared_ptr<NNAlgorithm> classifier,
-             bool multi_data_file = false) {
+             bool multi_data_file) {
   const double split_factor = 0.7;
 
   for (auto &dir : directories) {
@@ -82,6 +82,76 @@ void do_test(const std::vector<std::string> &directories, std::shared_ptr<NNAlgo
   std::cerr << "Bye" << std::endl;
 }
 
+void do_test_time(std::shared_ptr<NNAlgorithm> classifier, NNAlgorithm::DataType train_data,
+                  NNAlgorithm::DataType test_data, NNAlgorithm::LabelType train_label) {
+  auto start = high_resolution_clock::now();
+  NNAlgorithm::LabelType result;
+  classifier->train(train_data, train_label);
+  classifier->classify(test_data, result);
+
+  auto train_data_amount = train_data.rows();
+  auto test_data_amount = test_data.rows();
+  long time = duration_cast<milliseconds>(high_resolution_clock::now() - start).count();
+  std::cout << train_data_amount << " " << test_data_amount << " " << time << std::endl;
+}
+
+void test_time(const std::vector<std::string> &directories, std::shared_ptr<NNAlgorithm> classifier,
+               bool multi_data_file) {
+  const double split_factor = 0.7;
+
+  for (auto &dir : directories) {
+    NNAlgorithm::DataType train_data_input;
+    NNAlgorithm::LabelType train_label_input;
+    NNAlgorithm::DataType test_data_input;
+    NNAlgorithm::LabelType test_label_input;
+    NNAlgorithm::LabelType classify_label;
+
+    std::cerr << "Testing " << dir << std::endl;
+
+    if (multi_data_file) {
+      std::stringstream train_data_file;
+      std::stringstream test_data_file;
+      std::stringstream train_class_file;
+      std::stringstream test_class_file;
+      train_data_file << dir << "/train_data_input.txt";
+      test_data_file << dir << "/test_data.txt";
+      train_class_file << dir << "/train_label.txt";
+      test_class_file << dir << "/test_label.txt";
+      file_loader::load(train_data_file.str(), test_data_file.str(),
+                        train_class_file.str(), test_class_file.str(),
+                        train_data_input, test_data_input, train_label_input, test_label_input,
+                        1);
+    } else {
+      std::stringstream data_file;
+      std::stringstream class_file;
+      data_file << dir << "/data.txt";
+      class_file << dir << "/label.txt";
+      file_loader::load(data_file.str(), class_file.str(),
+                        train_data_input, test_data_input, train_label_input, test_label_input,
+                        1, split_factor);
+    }
+
+    long samples_num_thousands = std::min(train_label_input.rows(), test_label_input.rows()) / 1000;
+    long samples_num = 1000 * samples_num_thousands;
+    auto train_data = train_data_input.block(0, 0, samples_num, train_data_input.cols());
+    auto test_data = test_data_input.block(0, 0, samples_num, test_data_input.cols());
+    auto train_label = train_label_input.block(0, 0, samples_num, train_label_input.cols());
+
+    for (int samples = 1000; samples <= samples_num; samples += 1000) {
+      auto train_data_cut = train_data.block(0, 0, samples, train_data.cols());
+      auto test_data_cut = test_data.block(0, 0, samples, test_data.cols());
+      auto train_label_cut = train_label.block(0, 0, samples, train_label.cols());
+
+      if (samples < samples_num) {
+        do_test_time(classifier, train_data_cut, test_data_cut, train_label_cut);
+        do_test_time(classifier, train_data_cut, test_data, train_label_cut);
+      }
+      do_test_time(classifier, train_data, test_data_cut, train_label);
+    }
+  }
+  std::cerr << "Bye" << std::endl;
+}
+
 std::vector<std::string> directories(int len, char *argv[]) {
   std::vector<std::string> dirs{static_cast<unsigned int>(len)};
   for (auto i = 0; i < len; i++)
@@ -96,12 +166,23 @@ void test(std::shared_ptr<NNAlgorithm> classifier, int argc, char *argv[]) {
     std::cerr << "Pass testing directories as command line arguments." << std::endl;
   } else {
     bool multi_data_file = false;
+    bool speed_test = false;
+
     int from = 1;
-    if (strcmp("--multi-data-file", argv[1]) == 0) {
-      multi_data_file = true;
-      from++;
+    while (true) {
+      if (strcmp("--multi-data-file", argv[from]) == 0) {
+        multi_data_file = true;
+        from++;
+      } else if (strcmp("--speed-test", argv[from]) == 0) {
+        speed_test = true;
+        from++;
+      } else
+      break;
     }
-    do_test(directories(argc - from, argv + from), classifier, multi_data_file);
+    if (speed_test)
+      test_time(directories(argc - from, argv + from), classifier, multi_data_file);
+    else
+      do_test(directories(argc - from, argv + from), classifier, multi_data_file);
   }
 }
 }
