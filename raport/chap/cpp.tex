@@ -261,7 +261,6 @@ Dla niektórych plików obliczenie wskaźników nie było możliwe, ze względu 
 	\caption{Czułość i swoistość algorytmu kNN i eNN.}
 	\label{tab:matlab-wskazniki}
 \end{table}
-\subsection{Omówienie możliwości wykorzystania zrównoważonego zbioru uczącego?}
 
 \subsection{Rozkład danych w zbiorze uczącym i testowym.}
 W rozdziale \ref{chap:prototype} została przedstawiona skuteczność działania algorytmu dla różnych plików. W tym rozdziale zostaną omówione rozkłady klas w niektórych plikach, oraz ich wpływ na działanie algorytmu.
@@ -331,6 +330,35 @@ W tabeli \ref{tab:matlab-skutecznosc} opisującej skuteczność działania algor
 	\label{tab:matlab-plik201}
 \end{table}
 
+\subsection{Działanie algorytmów dla zbiorów uczących o jednakowym rozkładzie klas}
+
+Dane na których prowadzone były testy cechują się bardzo dużymi różnicami pomiędzy liczebnością poszczególnych klas. W tym rozdziale został przedstawiony przykład w którym zbiory uczące zawierały jednakową ilość próbek z poszczególnych klas. Porównanie skuteczności działania algorytmów dla obu zbiorów zostało przedstawione w tabeli \ref{tab:matlab-skutecznosc-rowno}. Zbiory uczące konstruowane były w taki sposób, że liczebność każdej klasy znajdującej się w pliku wynosiła 15. Z tego powodu nie dla wszystkich plików możliwe było skonstruowanie takich zbiorów uczących.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|r|r|r|r|}
+		\hline
+		& \multicolumn{2}{c|}{$kNN$} & \multicolumn{2}{c|}{$eNN$} \\
+		\hline
+		$Plik$ & Dane oryginalne & Dane zrównoważone & Dane oryginalne & Dane zrównoważone \\
+		\hline
+		
+		102 & 93.98\% & 87.83\% & 88.46\% & 68.51\% \\ 	
+		\hline
+		106 & 99.36\% & 87.59\% & 99.36\% & 66.73\% \\ 
+		\hline	
+		119 & 99.18\% & 99.74\% & 99.18\% & 100.00\% \\ 	
+		\hline  
+		231 & 99.48\% & 92.07\% & 99.21\% & 96.84\% \\ 	
+		\hline                                   
+		233 & 99.74\% & 99.03\% & 98.95\% & 98.70\% \\ 	
+		\hline                                                                    
+	\end{tabular}
+	\caption{Porównanie skuteczności algorytmów dla równej liczebności klas w zbiorze uczącym}
+	\label{tab:matlab-skutecznosc-rowno}
+\end{table}
+
+W przypadku dwóch pierwszych plików nastąpiło znaczne pogorszenie skuteczności, natomiast w pozostałych przypadkach wyniki były podobne do tych uzyskanych używając nierównolicznych zbiorów uczących. Jest to spowodowane indywidualnymi właściwościami każdego zbioru. Dodatkowo z powodu ograniczonej ilości dostępnych próbek należących do każdej klasy, w zbiorach uczących zostało umieszczonych jedynie po 15 próbek, co w niektórych przypadkach nie opisuje w pełni całej przestrzeni. 
 
 
 
